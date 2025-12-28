@@ -18,10 +18,10 @@ public struct VersionInfo: Codable, Identifiable {
   public let time: Date
   /// 发布时间
   public let releaseTime: Date
-  /// SHA1 校验和
-  public let sha1: String
-  /// 合规等级
-  public let complianceLevel: Int
+  /// SHA1 校验和（仅在 v2 API 中可用）
+  public let sha1: String?
+  /// 合规等级（仅在 v2 API 中可用）
+  public let complianceLevel: Int?
 
   public init(
     id: String,
@@ -29,8 +29,8 @@ public struct VersionInfo: Codable, Identifiable {
     url: String,
     time: Date,
     releaseTime: Date,
-    sha1: String,
-    complianceLevel: Int
+    sha1: String? = nil,
+    complianceLevel: Int? = nil
   ) {
     self.id = id
     self.type = type

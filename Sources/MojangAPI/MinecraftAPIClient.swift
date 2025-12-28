@@ -29,8 +29,16 @@ public class MinecraftAPIClient {
 
   // MARK: - 版本 API
 
+  /// 获取版本清单（默认使用 v2 API）
   public func fetchVersionManifest() async throws -> VersionManifest {
-    let url = try buildURL("\(configuration.versionBaseURL)/mc/game/version_manifest_v2.json")
+    try await fetchVersionManifest(useV2: true)
+  }
+
+  /// 获取版本清单
+  /// - Parameter useV2: 是否使用 v2 API（包含 sha1 和 complianceLevel）
+  public func fetchVersionManifest(useV2: Bool) async throws -> VersionManifest {
+    let endpoint = useV2 ? "version_manifest_v2.json" : "version_manifest.json"
+    let url = try buildURL("\(configuration.versionBaseURL)/mc/game/\(endpoint)")
     return try await request(url: url)
   }
 
@@ -50,6 +58,29 @@ public class MinecraftAPIClient {
     return manifest.versions.first { $0.id == id }
   }
 
+  /// 获取版本详细信息
+  public func fetchVersionDetails(byId id: String) async throws -> VersionDetails {
+    // 首先获取版本信息以获取详情 URL
+    guard let versionInfo = try await findVersion(byId: id) else {
+      throw MinecraftAPIError.versionNotFound(id)
+    }
+
+    guard let url = URL(string: versionInfo.url) else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
+  /// 通过 VersionInfo 获取版本详细信息
+  public func fetchVersionDetails(for versionInfo: VersionInfo) async throws -> VersionDetails {
+    guard let url = URL(string: versionInfo.url) else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
   // MARK: - 玩家档案 API
 
   public func fetchPlayerProfile(byName name: String) async throws -> PlayerProfile {
@@ -60,12 +91,15 @@ public class MinecraftAPIClient {
     return try await request(url: url, notFoundError: .playerNotFound(name))
   }
 
-  public func fetchPlayerProfile(byUUID uuid: String, unsigned: Bool = false) async throws -> PlayerProfile {
+  public func fetchPlayerProfile(byUUID uuid: String, unsigned: Bool = false) async throws
+    -> PlayerProfile
+  {
     guard !uuid.trimmingCharacters(in: .whitespaces).isEmpty else {
       throw MinecraftAPIError.emptyUUID
     }
 
-    var components = URLComponents(string: "\(configuration.sessionServerBaseURL)/session/minecraft/profile/\(uuid)")!
+    var components = URLComponents(
+      string: "\(configuration.sessionServerBaseURL)/session/minecraft/profile/\(uuid)")!
     components.queryItems = [URLQueryItem(name: "unsigned", value: String(unsigned))]
 
     guard let url = components.url else {
@@ -164,7 +198,8 @@ public class MinecraftAPIClient {
       let (data, response) = try await session.data(from: secureURL)
 
       guard let httpResponse = response as? HTTPURLResponse,
-            (200...299).contains(httpResponse.statusCode) else {
+        (200...299).contains(httpResponse.statusCode)
+      else {
         throw MinecraftAPIError.textureDownloadFailed
       }
 
@@ -185,7 +220,9 @@ public class MinecraftAPIClient {
     return url
   }
 
-  private func request<T: Decodable>(url: URL, notFoundError: MinecraftAPIError? = nil) async throws -> T {
+  private func request<T: Decodable>(url: URL, notFoundError: MinecraftAPIError? = nil) async throws
+    -> T
+  {
     do {
       let (data, response) = try await session.data(from: url)
 
@@ -194,7 +231,8 @@ public class MinecraftAPIClient {
       }
 
       guard (200...299).contains(httpResponse.statusCode) else {
-        throw parseErrorResponse(data: data, statusCode: httpResponse.statusCode, notFoundError: notFoundError)
+        throw parseErrorResponse(
+          data: data, statusCode: httpResponse.statusCode, notFoundError: notFoundError)
       }
 
       return try decoder.decode(T.self, from: data)
@@ -208,7 +246,9 @@ public class MinecraftAPIClient {
     }
   }
 
-  private func parseErrorResponse(data: Data, statusCode: Int, notFoundError: MinecraftAPIError?) -> MinecraftAPIError {
+  private func parseErrorResponse(data: Data, statusCode: Int, notFoundError: MinecraftAPIError?)
+    -> MinecraftAPIError
+  {
     if let errorResponse = try? decoder.decode(APIErrorResponse.self, from: data) {
       let message = errorResponse.errorMessage ?? errorResponse.error ?? "Unknown error"
 
@@ -219,8 +259,9 @@ public class MinecraftAPIClient {
       }
 
       if errorResponse.error == "NOT_FOUND",
-         let path = errorResponse.path,
-         path.hasSuffix("/profile/") {
+        let path = errorResponse.path,
+        path.hasSuffix("/profile/")
+      {
         return .emptyUUID
       }
 

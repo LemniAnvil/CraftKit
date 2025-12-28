@@ -24,4 +24,19 @@ extension VersionInfo {
     formatter.timeStyle = .none
     return formatter.string(from: releaseTime)
   }
+
+  /// 是否来自 v2 API（包含额外的元数据）
+  public var isFromV2API: Bool {
+    sha1 != nil && complianceLevel != nil
+  }
+
+  /// 是否有 SHA1 校验和
+  public var hasSHA1: Bool {
+    sha1 != nil
+  }
+
+  /// 是否有合规等级信息
+  public var hasComplianceLevel: Bool {
+    complianceLevel != nil
+  }
 }

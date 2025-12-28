@@ -20,6 +20,7 @@ public enum MinecraftAPIError: Error, LocalizedError {
   case noSkinAvailable
   case noCapeAvailable
   case textureDownloadFailed
+  case versionNotFound(String)
 
   public var errorDescription: String? {
     switch self {
@@ -49,6 +50,8 @@ public enum MinecraftAPIError: Error, LocalizedError {
       return "该玩家没有披风"
     case .textureDownloadFailed:
       return "纹理下载失败"
+    case .versionNotFound(let versionId):
+      return "版本不存在: \(versionId)"
     }
   }
 }
