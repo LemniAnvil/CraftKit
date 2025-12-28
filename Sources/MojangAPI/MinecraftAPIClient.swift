@@ -1,0 +1,236 @@
+//
+//  MinecraftAPIClient.swift
+//  MojangAPI
+//
+
+import Foundation
+
+/// Minecraft API 客户端
+public class MinecraftAPIClient {
+
+  private let configuration: MinecraftAPIConfiguration
+  private let session: URLSession
+  private let decoder: JSONDecoder
+
+  public init(
+    configuration: MinecraftAPIConfiguration = MinecraftAPIConfiguration()
+  ) {
+    self.configuration = configuration
+
+    let config = URLSessionConfiguration.default
+    config.timeoutIntervalForRequest = configuration.timeout
+    config.requestCachePolicy = configuration.cachePolicy
+    self.session = URLSession(configuration: config)
+
+    // 配置 JSON 解码器
+    self.decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+  }
+
+  // MARK: - 版本 API
+
+  public func fetchVersionManifest() async throws -> VersionManifest {
+    let url = try buildURL("\(configuration.versionBaseURL)/mc/game/version_manifest_v2.json")
+    return try await request(url: url)
+  }
+
+  public func fetchVersions(ofType type: VersionType) async throws -> [VersionInfo] {
+    let manifest = try await fetchVersionManifest()
+    return manifest.versions.filter { $0.type == type }
+  }
+
+  /// 获取最新版本
+  public func fetchLatestVersions() async throws -> LatestVersions {
+    let manifest = try await fetchVersionManifest()
+    return manifest.latest
+  }
+
+  public func findVersion(byId id: String) async throws -> VersionInfo? {
+    let manifest = try await fetchVersionManifest()
+    return manifest.versions.first { $0.id == id }
+  }
+
+  // MARK: - 玩家档案 API
+
+  public func fetchPlayerProfile(byName name: String) async throws -> PlayerProfile {
+    guard !name.trimmingCharacters(in: .whitespaces).isEmpty else {
+      throw MinecraftAPIError.emptyPlayerName
+    }
+    let url = try buildURL("\(configuration.servicesBaseURL)/minecraft/profile/lookup/name/\(name)")
+    return try await request(url: url, notFoundError: .playerNotFound(name))
+  }
+
+  public func fetchPlayerProfile(byUUID uuid: String, unsigned: Bool = false) async throws -> PlayerProfile {
+    guard !uuid.trimmingCharacters(in: .whitespaces).isEmpty else {
+      throw MinecraftAPIError.emptyUUID
+    }
+
+    var components = URLComponents(string: "\(configuration.sessionServerBaseURL)/session/minecraft/profile/\(uuid)")!
+    components.queryItems = [URLQueryItem(name: "unsigned", value: String(unsigned))]
+
+    guard let url = components.url else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    return try await request(url: url, notFoundError: .playerNotFound(uuid))
+  }
+
+  // MARK: - 纹理 API
+
+  /// 获取玩家皮肤 URL
+  public func fetchSkinURL(byName name: String) async throws -> URL? {
+    let profile = try await fetchPlayerProfile(byName: name)
+    let fullProfile = try await fetchPlayerProfile(byUUID: profile.id)
+    return fullProfile.getSkinURL()
+  }
+
+  /// 获取玩家皮肤 URL
+  public func fetchSkinURL(byUUID uuid: String) async throws -> URL? {
+    let profile = try await fetchPlayerProfile(byUUID: uuid)
+    return profile.getSkinURL()
+  }
+
+  /// 获取玩家披风 URL
+  public func fetchCapeURL(byName name: String) async throws -> URL? {
+    let profile = try await fetchPlayerProfile(byName: name)
+    let fullProfile = try await fetchPlayerProfile(byUUID: profile.id)
+    return fullProfile.getCapeURL()
+  }
+
+  /// 获取玩家披风 URL
+  public func fetchCapeURL(byUUID uuid: String) async throws -> URL? {
+    let profile = try await fetchPlayerProfile(byUUID: uuid)
+    return profile.getCapeURL()
+  }
+
+  /// 获取完整纹理信息
+  public func fetchTextures(byName name: String) async throws -> TexturesPayload {
+    let profile = try await fetchPlayerProfile(byName: name)
+    let fullProfile = try await fetchPlayerProfile(byUUID: profile.id)
+    return try fullProfile.getTexturesPayload()
+  }
+
+  /// 获取完整纹理信息
+  public func fetchTextures(byUUID uuid: String) async throws -> TexturesPayload {
+    let profile = try await fetchPlayerProfile(byUUID: uuid)
+    return try profile.getTexturesPayload()
+  }
+
+  /// 下载皮肤图片数据
+  public func downloadSkin(byUUID uuid: String) async throws -> Data {
+    guard let url = try await fetchSkinURL(byUUID: uuid) else {
+      throw MinecraftAPIError.noSkinAvailable
+    }
+    return try await downloadTexture(from: url)
+  }
+
+  /// 下载皮肤图片数据
+  public func downloadSkin(byName name: String) async throws -> Data {
+    guard let url = try await fetchSkinURL(byName: name) else {
+      throw MinecraftAPIError.noSkinAvailable
+    }
+    return try await downloadTexture(from: url)
+  }
+
+  /// 下载披风图片数据
+  public func downloadCape(byUUID uuid: String) async throws -> Data {
+    guard let url = try await fetchCapeURL(byUUID: uuid) else {
+      throw MinecraftAPIError.noCapeAvailable
+    }
+    return try await downloadTexture(from: url)
+  }
+
+  /// 下载披风图片数据
+  public func downloadCape(byName name: String) async throws -> Data {
+    guard let url = try await fetchCapeURL(byName: name) else {
+      throw MinecraftAPIError.noCapeAvailable
+    }
+    return try await downloadTexture(from: url)
+  }
+
+  /// 下载纹理
+  private func downloadTexture(from url: URL) async throws -> Data {
+    // 将 http 转换为 https
+    var urlString = url.absoluteString
+    if urlString.hasPrefix("http://textures.minecraft.net") {
+      urlString = urlString.replacingOccurrences(of: "http://", with: "https://")
+    }
+
+    guard let secureURL = URL(string: urlString) else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    do {
+      let (data, response) = try await session.data(from: secureURL)
+
+      guard let httpResponse = response as? HTTPURLResponse,
+            (200...299).contains(httpResponse.statusCode) else {
+        throw MinecraftAPIError.textureDownloadFailed
+      }
+
+      return data
+    } catch let error as MinecraftAPIError {
+      throw error
+    } catch {
+      throw MinecraftAPIError.networkError(error)
+    }
+  }
+
+  // MARK: - 私有方法
+
+  private func buildURL(_ string: String) throws -> URL {
+    guard let url = URL(string: string) else {
+      throw MinecraftAPIError.invalidURL
+    }
+    return url
+  }
+
+  private func request<T: Decodable>(url: URL, notFoundError: MinecraftAPIError? = nil) async throws -> T {
+    do {
+      let (data, response) = try await session.data(from: url)
+
+      guard let httpResponse = response as? HTTPURLResponse else {
+        throw MinecraftAPIError.networkError(URLError(.badServerResponse))
+      }
+
+      guard (200...299).contains(httpResponse.statusCode) else {
+        throw parseErrorResponse(data: data, statusCode: httpResponse.statusCode, notFoundError: notFoundError)
+      }
+
+      return try decoder.decode(T.self, from: data)
+
+    } catch let error as MinecraftAPIError {
+      throw error
+    } catch let error as DecodingError {
+      throw MinecraftAPIError.decodingError(error)
+    } catch {
+      throw MinecraftAPIError.networkError(error)
+    }
+  }
+
+  private func parseErrorResponse(data: Data, statusCode: Int, notFoundError: MinecraftAPIError?) -> MinecraftAPIError {
+    if let errorResponse = try? decoder.decode(APIErrorResponse.self, from: data) {
+      let message = errorResponse.errorMessage ?? errorResponse.error ?? "Unknown error"
+
+      if message.contains("Not a valid UUID") {
+        if let uuid = message.components(separatedBy: ": ").last {
+          return .invalidUUID(uuid)
+        }
+      }
+
+      if errorResponse.error == "NOT_FOUND",
+         let path = errorResponse.path,
+         path.hasSuffix("/profile/") {
+        return .emptyUUID
+      }
+
+      return .apiError(path: errorResponse.path ?? "", message: message)
+    }
+
+    if statusCode == 404, let notFoundError = notFoundError {
+      return notFoundError
+    }
+
+    return .serverError(statusCode: statusCode)
+  }
+}
