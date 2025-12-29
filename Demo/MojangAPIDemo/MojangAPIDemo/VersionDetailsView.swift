@@ -99,107 +99,243 @@ struct VersionDetailsView: View {
 
         // 版本基本信息
         if let details = versionDetails {
-          Section("基本信息") {
-            LabeledContent("版本 ID", value: details.id)
-            LabeledContent("类型", value: String(describing: details.type))
-            LabeledContent("主类", value: details.mainClass)
-            LabeledContent("发布时间", value: details.releaseTime.formatted())
-            LabeledContent("合规等级", value: "\(details.complianceLevel)")
-            LabeledContent("最低启动器版本", value: "\(details.minimumLauncherVersion)")
-          }
+          // 版本概览卡片
+          Section {
+            VStack(alignment: .leading, spacing: 12) {
+              // 版本标题
+              HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                  Text(details.id)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                  HStack(spacing: 8) {
+                    Text(details.type.rawValue)
+                      .font(.caption)
+                      .padding(.horizontal, 8)
+                      .padding(.vertical, 4)
+                      .background(typeColor(for: details.type).opacity(0.2))
+                      .foregroundColor(typeColor(for: details.type))
+                      .cornerRadius(4)
+                    Text(details.releaseTime.formatted(date: .abbreviated, time: .omitted))
+                      .font(.caption)
+                      .foregroundStyle(.secondary)
+                  }
+                }
+                Spacer()
+              }
 
-          // Java 信息
-          Section("Java 要求") {
-            LabeledContent("组件", value: details.javaVersion.component)
-            LabeledContent("主版本", value: "\(details.javaVersion.majorVersion)")
-            LabeledContent("Java 8", value: details.javaVersion.isJava8 ? "✓" : "✗")
-            LabeledContent("Java 17+", value: details.javaVersion.isJava17Plus ? "✓" : "✗")
-            LabeledContent("Java 21+", value: details.javaVersion.isJava21Plus ? "✓" : "✗")
+              Divider()
+
+              // 关键信息
+              HStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 4) {
+                  Text("Java")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                  Text("\(details.javaVersion.majorVersion)")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                  Text("合规等级")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                  Text("\(details.complianceLevel)")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                  Text("总大小")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                  Text(details.formattedDownloadSize)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                }
+              }
+            }
+            .padding(.vertical, 8)
           }
 
           // 下载信息
           Section("下载") {
-            VStack(alignment: .leading, spacing: 8) {
-              Text("客户端")
-                .font(.headline)
-              LabeledContent(
-                "大小",
-                value: ByteCountFormatter.string(
-                  fromByteCount: Int64(details.downloads.client.size),
-                  countStyle: .file
-                ))
-              LabeledContent(
-                "SHA1", value: String(details.downloads.client.sha1.prefix(16)) + "...")
+            // 客户端
+            HStack {
+              VStack(alignment: .leading, spacing: 4) {
+                Text("客户端")
+                  .font(.subheadline)
+                  .fontWeight(.medium)
+                Text(
+                  ByteCountFormatter.string(
+                    fromByteCount: Int64(details.downloads.client.size),
+                    countStyle: .file
+                  )
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+              }
+              Spacer()
+              Button(action: {}) {
+                Image(systemName: "arrow.down.circle")
+                  .font(.title2)
+              }
+              .buttonStyle(.plain)
             }
 
+            // 服务端
             if let server = details.downloads.server {
-              VStack(alignment: .leading, spacing: 8) {
-                Text("服务端")
-                  .font(.headline)
-                LabeledContent(
-                  "大小",
-                  value: ByteCountFormatter.string(
-                    fromByteCount: Int64(server.size),
+              HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                  Text("服务端")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                  Text(
+                    ByteCountFormatter.string(
+                      fromByteCount: Int64(server.size),
+                      countStyle: .file
+                    )
+                  )
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button(action: {}) {
+                  Image(systemName: "arrow.down.circle")
+                    .font(.title2)
+                }
+                .buttonStyle(.plain)
+              }
+            }
+          }
+
+          // 资源与依赖
+          Section("资源与依赖") {
+            // 资源索引
+            VStack(alignment: .leading, spacing: 8) {
+              HStack {
+                Text("资源索引")
+                  .font(.subheadline)
+                  .fontWeight(.medium)
+                Spacer()
+                Text(details.assetIndex.id)
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
+
+              HStack {
+                Text("资源大小")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+                Spacer()
+                Text(
+                  ByteCountFormatter.string(
+                    fromByteCount: Int64(details.assetIndex.totalSize),
                     countStyle: .file
-                  ))
-                LabeledContent("SHA1", value: String(server.sha1.prefix(16)) + "...")
+                  )
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
               }
             }
 
-            LabeledContent("总下载大小", value: details.formattedDownloadSize)
-          }
+            Divider()
 
-          // 资源信息
-          Section("资源索引") {
-            LabeledContent("ID", value: details.assetIndex.id)
-            LabeledContent(
-              "大小",
-              value: ByteCountFormatter.string(
-                fromByteCount: Int64(details.assetIndex.size),
-                countStyle: .file
-              ))
-            LabeledContent(
-              "总大小",
-              value: ByteCountFormatter.string(
-                fromByteCount: Int64(details.assetIndex.totalSize),
-                countStyle: .file
-              ))
-          }
+            // 依赖库
+            VStack(alignment: .leading, spacing: 8) {
+              Picker("操作系统", selection: $selectedOS) {
+                Text("macOS").tag("osx")
+                Text("Windows").tag("windows")
+                Text("Linux").tag("linux")
+              }
+              .pickerStyle(.segmented)
 
-          // 依赖库
-          Section("依赖库") {
-            Picker("操作系统", selection: $selectedOS) {
-              Text("macOS").tag("osx")
-              Text("Windows").tag("windows")
-              Text("Linux").tag("linux")
-            }
-            .pickerStyle(.segmented)
+              let filteredLibraries = details.libraries(for: selectedOS)
+              HStack {
+                Text("依赖库")
+                  .font(.subheadline)
+                  .fontWeight(.medium)
+                Spacer()
+                Text("\(filteredLibraries.count) / \(details.libraries.count)")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
 
-            let filteredLibraries = details.libraries(for: selectedOS)
-            LabeledContent("库数量", value: "\(filteredLibraries.count) / \(details.libraries.count)")
-
-            NavigationLink("查看库列表") {
-              LibrariesListView(libraries: filteredLibraries)
+              NavigationLink {
+                LibrariesListView(libraries: filteredLibraries)
+              } label: {
+                HStack {
+                  Text("查看库列表")
+                    .font(.subheadline)
+                  Spacer()
+                  Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+              }
             }
           }
 
           // 启动参数
           Section("启动参数") {
-            LabeledContent("游戏参数", value: "\(details.gameArgumentStrings.count)")
-            LabeledContent("JVM 参数", value: "\(details.jvmArgumentStrings.count)")
-
-            NavigationLink("查看游戏参数") {
+            NavigationLink {
               ArgumentsListView(
                 title: "游戏参数",
                 arguments: details.gameArgumentStrings
               )
+            } label: {
+              HStack {
+                Text("游戏参数")
+                  .font(.subheadline)
+                Spacer()
+                Text("\(details.gameArgumentStrings.count)")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+                Image(systemName: "chevron.right")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
             }
 
-            NavigationLink("查看 JVM 参数") {
+            NavigationLink {
               ArgumentsListView(
                 title: "JVM 参数",
                 arguments: details.jvmArgumentStrings
               )
+            } label: {
+              HStack {
+                Text("JVM 参数")
+                  .font(.subheadline)
+                Spacer()
+                Text("\(details.jvmArgumentStrings.count)")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+                Image(systemName: "chevron.right")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
+            }
+          }
+
+          // 技术详情（折叠）
+          Section("技术详情") {
+            DisclosureGroup {
+              VStack(alignment: .leading, spacing: 8) {
+                InfoRow(label: "主类", value: details.mainClass)
+                InfoRow(label: "最低启动器版本", value: "\(details.minimumLauncherVersion)")
+                InfoRow(label: "Java 组件", value: details.javaVersion.component)
+                InfoRow(
+                  label: "客户端 SHA1", value: String(details.downloads.client.sha1.prefix(16)) + "..."
+                )
+                if let server = details.downloads.server {
+                  InfoRow(label: "服务端 SHA1", value: String(server.sha1.prefix(16)) + "...")
+                }
+              }
+              .font(.caption)
+            } label: {
+              Text("显示更多技术信息")
+                .font(.subheadline)
             }
           }
         }
@@ -275,6 +411,36 @@ struct VersionDetailsView: View {
       errorMessage = error.localizedDescription
     }
     isLoading = false
+  }
+
+  private func typeColor(for type: VersionType) -> Color {
+    switch type {
+    case .release:
+      return .green
+    case .snapshot:
+      return .orange
+    case .oldBeta:
+      return .blue
+    case .oldAlpha:
+      return .purple
+    }
+  }
+}
+
+// MARK: - Helper Views
+
+struct InfoRow: View {
+  let label: String
+  let value: String
+
+  var body: some View {
+    HStack {
+      Text(label)
+        .foregroundStyle(.secondary)
+      Spacer()
+      Text(value)
+        .multilineTextAlignment(.trailing)
+    }
   }
 }
 
