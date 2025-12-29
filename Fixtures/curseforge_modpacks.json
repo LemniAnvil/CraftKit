@@ -1,0 +1,1257 @@
+{
+  "data": [
+    {
+      "screenshots": [],
+      "id": 285109,
+      "gameId": 432,
+      "name": "RLCraft",
+      "slug": "rlcraft",
+      "links": {
+        "websiteUrl": "https://www.curseforge.com/minecraft/modpacks/rlcraft",
+        "wikiUrl": "https://rlcraft.wiki.gg/",
+        "issuesUrl": null,
+        "sourceUrl": null
+      },
+      "summary": "A modpack specially designed to bring an incredibly hardcore and semi-realism challenge revolving around survival, RPG elements, and adventure-like exploration.",
+      "status": 4,
+      "downloadCount": 27806151,
+      "isFeatured": false,
+      "primaryCategoryId": 4475,
+      "categories": [
+        {
+          "id": 4475,
+          "gameId": 432,
+          "name": "Adventure and RPG",
+          "slug": "adventure-and-rpg",
+          "url": "https://www.curseforge.com/minecraft/modpacks/adventure-and-rpg",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/480/635596775049811800.png",
+          "dateModified": "2015-02-16T15:58:24.98Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4483,
+          "gameId": 432,
+          "name": "Combat / PvP",
+          "slug": "combat-pvp",
+          "url": "https://www.curseforge.com/minecraft/modpacks/combat-pvp",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/313/635591779575605594.png",
+          "dateModified": "2015-02-10T21:12:37.56Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4476,
+          "gameId": 432,
+          "name": "Exploration",
+          "slug": "exploration",
+          "url": "https://www.curseforge.com/minecraft/modpacks/exploration",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/486/635596815896417213.png",
+          "dateModified": "2015-02-16T17:06:29.69Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4479,
+          "gameId": 432,
+          "name": "Hardcore",
+          "slug": "hardcore",
+          "url": "https://www.curseforge.com/minecraft/modpacks/hardcore",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/473/635596760504656528.png",
+          "dateModified": "2015-02-16T15:34:10.467Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4473,
+          "gameId": 432,
+          "name": "Magic",
+          "slug": "magic",
+          "url": "https://www.curseforge.com/minecraft/modpacks/magic",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/474/635596760578719019.png",
+          "dateModified": "2015-02-16T15:34:17.873Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        }
+      ],
+      "classId": 4471,
+      "authors": [
+        {
+          "id": 11806322,
+          "name": "Shivaxi",
+          "url": "https://www.curseforge.com/members/shivaxi",
+          "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/41f3fd00-f746-4d74-bf89-e15dd5123d67-profile_image-150x150.png"
+        }
+      ],
+      "logo": {
+        "id": 468243,
+        "modId": 285109,
+        "title": "637751369169569212.png",
+        "description": "",
+        "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/468/243/256/256/637751369169569212.png",
+        "url": "https://media.forgecdn.net/avatars/468/243/637751369169569212.png"
+      },
+      "mainFileId": 4612979,
+      "latestFiles": [
+        {
+          "id": 2708027,
+          "gameId": 432,
+          "modId": 285109,
+          "isAvailable": true,
+          "displayName": "RLCraft 1.12.2 - Alpha v2.0.zip",
+          "fileName": "RLCraft 1.12.2 - Alpha v2.0.zip",
+          "releaseType": 3,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "404470412ea021c8936a8267f21e3a72d361509b",
+              "algo": 1
+            },
+            {
+              "value": "f60b063ffaf0167730ae9f77e69eee27",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2019-05-06T18:46:15.887Z",
+          "fileLength": 1520136,
+          "downloadCount": 78979,
+          "downloadUrl": "https://edge.forgecdn.net/files/2708/27/RLCraft%201.12.2%20-%20Alpha%20v2.0.zip",
+          "gameVersions": [
+            "1.12.2"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.12.2",
+              "gameVersionPadded": "0000000001.0000000012.0000000002",
+              "gameVersion": "1.12.2",
+              "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+              "gameVersionTypeId": 628
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "fileFingerprint": 3912887938,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 240131959
+            }
+          ]
+        },
+        {
+          "id": 2935316,
+          "gameId": 432,
+          "modId": 285109,
+          "isAvailable": true,
+          "displayName": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+          "fileName": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+          "releaseType": 2,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "7f2402916e448241f597cc66afff983458523228",
+              "algo": 1
+            },
+            {
+              "value": "6d72fea71eeceba791792d5b2c716b42",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2020-04-20T08:11:34.3Z",
+          "fileLength": 30627569,
+          "downloadCount": 4762415,
+          "downloadUrl": "https://edge.forgecdn.net/files/2935/316/RLCraft%201.12.2%20-%20Beta%20v2.8.2.zip",
+          "gameVersions": [
+            "1.12.2"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.12.2",
+              "gameVersionPadded": "0000000001.0000000012.0000000002",
+              "gameVersion": "1.12.2",
+              "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+              "gameVersionTypeId": 628
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 2935323,
+          "fileFingerprint": 2523815034,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 3991312357
+            }
+          ]
+        },
+        {
+          "id": 4487646,
+          "gameId": 432,
+          "modId": 285109,
+          "isAvailable": true,
+          "displayName": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+          "fileName": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "3517e6e5eed0bd65ecd35a9b2fc875ff3c2fddec",
+              "algo": 1
+            },
+            {
+              "value": "2d2222865fd3a230a820830457bb99a2",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2023-04-12T21:45:11.603Z",
+          "fileLength": 51345522,
+          "downloadCount": 938739,
+          "downloadUrl": "https://edge.forgecdn.net/files/4487/646/RLCraft%201.12.2%20-%20Release%20v2.9.2d.zip",
+          "gameVersions": [
+            "Forge",
+            "1.12.2"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "Forge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+              "gameVersionTypeId": 68441
+            },
+            {
+              "gameVersionName": "1.12.2",
+              "gameVersionPadded": "0000000001.0000000012.0000000002",
+              "gameVersion": "1.12.2",
+              "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+              "gameVersionTypeId": 628
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 4487650,
+          "fileFingerprint": 2676809031,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 2192261845
+            }
+          ]
+        },
+        {
+          "id": 4612979,
+          "gameId": 432,
+          "modId": 285109,
+          "isAvailable": true,
+          "displayName": "RLCraft 1.12.2 - Release v2.9.3.zip",
+          "fileName": "RLCraft 1.12.2 - Release v2.9.3.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "11b0261e4dde9169173b24b88cbc1622859f4a68",
+              "algo": 1
+            },
+            {
+              "value": "1311977c2d75ec837a3e255a1ee75b98",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2023-06-27T23:31:57.797Z",
+          "fileLength": 51324367,
+          "downloadCount": 7529366,
+          "downloadUrl": "https://edge.forgecdn.net/files/4612/979/RLCraft%201.12.2%20-%20Release%20v2.9.3.zip",
+          "gameVersions": [
+            "1.12.2"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.12.2",
+              "gameVersionPadded": "0000000001.0000000012.0000000002",
+              "gameVersion": "1.12.2",
+              "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+              "gameVersionTypeId": 628
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 4612990,
+          "fileFingerprint": 3659337089,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 4231431615
+            }
+          ]
+        }
+      ],
+      "latestFilesIndexes": [
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 4612979,
+          "filename": "RLCraft 1.12.2 - Release v2.9.3.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 628
+        },
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 4487646,
+          "filename": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 628,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 2935316,
+          "filename": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 628
+        },
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 2708027,
+          "filename": "RLCraft 1.12.2 - Alpha v2.0.zip",
+          "releaseType": 3,
+          "gameVersionTypeId": 628
+        },
+        {
+          "gameVersion": "1.11.2",
+          "fileId": 2532808,
+          "filename": "RLCraft 1.11.2 - Beta v1.4.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 599
+        }
+      ],
+      "latestEarlyAccessFilesIndexes": [],
+      "dateCreated": "2018-01-11T16:48:31.147Z",
+      "dateModified": "2025-04-02T07:44:02.187Z",
+      "dateReleased": "2023-12-16T18:44:42.473Z",
+      "allowModDistribution": true,
+      "gamePopularityRank": 1945,
+      "isAvailable": true,
+      "thumbsUpCount": 0,
+      "socialLinks": [
+        {
+          "type": 10,
+          "url": "https://www.youtube.com/Shivaxi"
+        }
+      ],
+      "featuredProjectTag": 0
+    },
+    {
+      "screenshots": [],
+      "id": 389615,
+      "gameId": 432,
+      "name": "The Pixelmon Modpack",
+      "slug": "the-pixelmon-modpack",
+      "links": {
+        "websiteUrl": "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack",
+        "wikiUrl": "https://pixelmonmod.com/",
+        "issuesUrl": "https://pixelmonmod.com/tracker.php",
+        "sourceUrl": "https://reforged.gg/1211"
+      },
+      "summary": "This is a Modpack designed to give players an easy time getting started.",
+      "status": 4,
+      "downloadCount": 19211855,
+      "isFeatured": false,
+      "primaryCategoryId": 4475,
+      "categories": [
+        {
+          "id": 4475,
+          "gameId": 432,
+          "name": "Adventure and RPG",
+          "slug": "adventure-and-rpg",
+          "url": "https://www.curseforge.com/minecraft/modpacks/adventure-and-rpg",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/480/635596775049811800.png",
+          "dateModified": "2015-02-16T15:58:24.98Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4476,
+          "gameId": 432,
+          "name": "Exploration",
+          "slug": "exploration",
+          "url": "https://www.curseforge.com/minecraft/modpacks/exploration",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/486/635596815896417213.png",
+          "dateModified": "2015-02-16T17:06:29.69Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4480,
+          "gameId": 432,
+          "name": "Map Based",
+          "slug": "map-based",
+          "url": "https://www.curseforge.com/minecraft/modpacks/map-based",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/475/635596760683250342.png",
+          "dateModified": "2015-02-16T15:34:28.34Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4478,
+          "gameId": 432,
+          "name": "Quests",
+          "slug": "quests",
+          "url": "https://www.curseforge.com/minecraft/modpacks/quests",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/487/635596816137981263.png",
+          "dateModified": "2015-02-16T17:06:53.797Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        }
+      ],
+      "classId": 4471,
+      "authors": [
+        {
+          "id": 101171654,
+          "name": "PixelmonMod",
+          "url": "https://www.curseforge.com/members/pixelmonmod",
+          "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/956f6e3a-cb0c-4e79-b71f-9debda4aa8be-profile_image-150x150.png"
+        },
+        {
+          "id": 32340198,
+          "name": "Isiliden",
+          "url": "https://www.curseforge.com/members/isiliden",
+          "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/isiliden-profile_image-82134f7635812643-150x150.png"
+        }
+      ],
+      "logo": {
+        "id": 279234,
+        "modId": 389615,
+        "title": "637276853291457748.png",
+        "description": "",
+        "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/279/234/256/256/637276853291457748.png",
+        "url": "https://media.forgecdn.net/avatars/279/234/637276853291457748.png"
+      },
+      "mainFileId": 7362782,
+      "latestFiles": [
+        {
+          "id": 4028898,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.0.11",
+          "fileName": "The Pixelmon Modpack 9.0.11.zip",
+          "releaseType": 2,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "97d0e9c325f1c554fadcf488522efa6a8439a700",
+              "algo": 1
+            },
+            {
+              "value": "df7d54d8ae8c228a88fea8b78f9814bd",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2022-10-14T20:09:39.373Z",
+          "fileLength": 7837079,
+          "downloadCount": 109660,
+          "downloadUrl": "https://edge.forgecdn.net/files/4028/898/The%20Pixelmon%20Modpack%209.0.11.zip",
+          "gameVersions": [
+            "1.16.5"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.16.5",
+              "gameVersionPadded": "0000000001.0000000016.0000000005",
+              "gameVersion": "1.16.5",
+              "gameVersionReleaseDate": "2021-01-15T14:14:48.91Z",
+              "gameVersionTypeId": 70886
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 4028904,
+          "fileFingerprint": 3147023875,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 1213545178
+            }
+          ]
+        },
+        {
+          "id": 4110779,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.1.0",
+          "fileName": "The Pixelmon Modpack 9.1.0.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "97b5161ab07dbfbb84df0421fdea8b2641742db4",
+              "algo": 1
+            },
+            {
+              "value": "fcb79aa3d66b40bffb21314b62cb3667",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2022-11-24T23:48:31.683Z",
+          "fileLength": 7837894,
+          "downloadCount": 478741,
+          "downloadUrl": "https://edge.forgecdn.net/files/4110/779/The%20Pixelmon%20Modpack%209.1.0.zip",
+          "gameVersions": [
+            "1.16.5"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.16.5",
+              "gameVersionPadded": "0000000001.0000000016.0000000005",
+              "gameVersion": "1.16.5",
+              "gameVersionReleaseDate": "2021-01-15T14:14:48.91Z",
+              "gameVersionTypeId": 70886
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 4110784,
+          "fileFingerprint": 955481545,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 2804308409
+            }
+          ]
+        },
+        {
+          "id": 5954570,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.1.13",
+          "fileName": "The Pixelmon Modpack 9.1.13.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "bef267878b95ff6e5b928896aee3f3c42fa7f689",
+              "algo": 1
+            },
+            {
+              "value": "770c34be077c3f4393b9779d642c24b1",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2024-12-01T20:30:10.59Z",
+          "fileLength": 4260303,
+          "downloadCount": 1866136,
+          "fileSizeOnDisk": 4899863,
+          "downloadUrl": "https://edge.forgecdn.net/files/5954/570/The%20Pixelmon%20Modpack%209.1.13.zip",
+          "gameVersions": [
+            "1.16.5",
+            "Forge"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.16.5",
+              "gameVersionPadded": "0000000001.0000000016.0000000005",
+              "gameVersion": "1.16.5",
+              "gameVersionReleaseDate": "2021-01-15T14:14:48.91Z",
+              "gameVersionTypeId": 70886
+            },
+            {
+              "gameVersionName": "Forge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+              "gameVersionTypeId": 68441
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 5954585,
+          "fileFingerprint": 558441737,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 401155957
+            },
+            {
+              "name": "overrides",
+              "fingerprint": 522024444
+            }
+          ]
+        },
+        {
+          "id": 5983235,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.2.10",
+          "fileName": "The Pixelmon Modpack 9.2.10.zip",
+          "releaseType": 2,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "c0edde73a3f001fecadb182b119d0447b898b88a",
+              "algo": 1
+            },
+            {
+              "value": "fa05bc70eaecb63b13e488c965a71c64",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2024-12-11T19:13:04.453Z",
+          "fileLength": 13374692,
+          "downloadCount": 276271,
+          "fileSizeOnDisk": 14385522,
+          "downloadUrl": "https://edge.forgecdn.net/files/5983/235/The%20Pixelmon%20Modpack%209.2.10.zip",
+          "gameVersions": [
+            "1.20.2",
+            "Forge"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.20.2",
+              "gameVersionPadded": "0000000001.0000000020.0000000002",
+              "gameVersion": "1.20.2",
+              "gameVersionReleaseDate": "2023-09-21T15:25:15.053Z",
+              "gameVersionTypeId": 75125
+            },
+            {
+              "gameVersionName": "Forge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+              "gameVersionTypeId": 68441
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "fileFingerprint": 227000632,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 4115115536
+            },
+            {
+              "name": "overrides",
+              "fingerprint": 1537806328
+            }
+          ]
+        },
+        {
+          "id": 7312088,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.3.11",
+          "fileName": "The Pixelmon Modpack 9.3.11.zip",
+          "releaseType": 2,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "718636569e05be1e5347060ce1fa5440eb0f2066",
+              "algo": 1
+            },
+            {
+              "value": "dcce3bee5074e5b6e18c5af341808cd3",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2025-12-09T16:12:40.163Z",
+          "fileLength": 45636161,
+          "downloadCount": 891,
+          "fileSizeOnDisk": 47177358,
+          "downloadUrl": "https://edge.forgecdn.net/files/7312/88/The%20Pixelmon%20Modpack%209.3.11.zip",
+          "gameVersions": [
+            "1.21.1",
+            "NeoForge"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.21.1",
+              "gameVersionPadded": "0000000001.0000000021.0000000001",
+              "gameVersion": "1.21.1",
+              "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
+              "gameVersionTypeId": 77784
+            },
+            {
+              "gameVersionName": "NeoForge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
+              "gameVersionTypeId": 68441
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 7312154,
+          "fileFingerprint": 471025536,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 763997606
+            },
+            {
+              "name": "overrides",
+              "fingerprint": 3328571623
+            }
+          ]
+        },
+        {
+          "id": 7362782,
+          "gameId": 432,
+          "modId": 389615,
+          "isAvailable": true,
+          "displayName": "The Pixelmon Modpack 9.3.13",
+          "fileName": "The Pixelmon Modpack 9.3.13.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "ba79e9f9ccb625a606416391c0b38bb17d7affc2",
+              "algo": 1
+            },
+            {
+              "value": "f8a76a3820e40eec71e5259d6e17460b",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2025-12-21T19:41:03.96Z",
+          "fileLength": 45636164,
+          "downloadCount": 32631,
+          "fileSizeOnDisk": 47177358,
+          "downloadUrl": "https://edge.forgecdn.net/files/7362/782/The%20Pixelmon%20Modpack%209.3.13.zip",
+          "gameVersions": [
+            "1.21.1",
+            "NeoForge"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.21.1",
+              "gameVersionPadded": "0000000001.0000000021.0000000001",
+              "gameVersion": "1.21.1",
+              "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
+              "gameVersionTypeId": 77784
+            },
+            {
+              "gameVersionName": "NeoForge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
+              "gameVersionTypeId": 68441
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "fileFingerprint": 2173885432,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 2683914734
+            },
+            {
+              "name": "overrides",
+              "fingerprint": 3328571623
+            }
+          ]
+        }
+      ],
+      "latestFilesIndexes": [
+        {
+          "gameVersion": "1.21.1",
+          "fileId": 7362782,
+          "filename": "The Pixelmon Modpack 9.3.13.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 77784,
+          "modLoader": 6
+        },
+        {
+          "gameVersion": "1.21.1",
+          "fileId": 7312088,
+          "filename": "The Pixelmon Modpack 9.3.11.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 77784,
+          "modLoader": 6
+        },
+        {
+          "gameVersion": "1.20.2",
+          "fileId": 5983235,
+          "filename": "The Pixelmon Modpack 9.2.10.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 75125,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.16.5",
+          "fileId": 5954570,
+          "filename": "The Pixelmon Modpack 9.1.13.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 70886,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.20.1",
+          "fileId": 4782898,
+          "filename": "The Pixelmon Modpack 9.2.3.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 75125,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 4348478,
+          "filename": "The Pixelmon Modpack 8.4.3.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 628,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.16.5",
+          "fileId": 4110779,
+          "filename": "The Pixelmon Modpack 9.1.0.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 70886
+        },
+        {
+          "gameVersion": "1.16.5",
+          "fileId": 4028898,
+          "filename": "The Pixelmon Modpack 9.0.11.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 70886
+        },
+        {
+          "gameVersion": "1.16.5",
+          "fileId": 3998783,
+          "filename": "The Pixelmon Modpack 9.0.10.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 70886,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.12.2",
+          "fileId": 3711196,
+          "filename": "The Pixelmon Modpack-8.3.8.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 628
+        }
+      ],
+      "latestEarlyAccessFilesIndexes": [],
+      "dateCreated": "2020-06-17T16:46:53.06Z",
+      "dateModified": "2025-12-29T16:49:04.24Z",
+      "dateReleased": "2025-12-21T19:41:03.96Z",
+      "allowModDistribution": true,
+      "gamePopularityRank": 3073,
+      "isAvailable": true,
+      "thumbsUpCount": 0,
+      "serverAffiliation": {
+        "isEnabled": true,
+        "isDefaultBanner": false,
+        "hasDiscount": false,
+        "affiliationService": 2,
+        "customImageUrl": "https://media.forgecdn.net/banner/console-affiliation-banners/banner_26b948a7-15e6-41f0-ada8-6d5849aa6148.jpg",
+        "affiliationLink": "https://nodecraft.com/r/pixelmon"
+      },
+      "socialLinks": [
+        {
+          "type": 2,
+          "url": "https://discord.gg/pixelmon"
+        },
+        {
+          "type": 3,
+          "url": "https://pixelmonmod.com"
+        }
+      ],
+      "featuredProjectTag": 0
+    },
+    {
+      "screenshots": [
+        {
+          "id": 1108547,
+          "modId": 876781,
+          "title": " Banner",
+          "description": " Banner",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/547/310/172/bbqax1n-jpeg.jpeg",
+          "url": "https://media.forgecdn.net/attachments/1108/547/bbqax1n-jpeg.jpeg"
+        },
+        {
+          "id": 1108425,
+          "modId": 876781,
+          "title": "River",
+          "description": "River",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/425/310/172/river-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1108/425/river-jpg.jpg"
+        },
+        {
+          "id": 1336066,
+          "modId": 876781,
+          "title": "End Portal",
+          "description": "Featuring custom glowing effect from ingame shader presets",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1336/66/310/172/javaw_qmkbqtgnls-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1336/66/javaw_qmkbqtgnls-jpg.jpg"
+        },
+        {
+          "id": 1108408,
+          "modId": 876781,
+          "title": "Kitchen",
+          "description": "Kitchen\n\nFrom the Farmers Structures mod",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/408/310/172/farmers_structures-cook-png.png",
+          "url": "https://media.forgecdn.net/attachments/1108/408/farmers_structures-cook-png.png"
+        },
+        {
+          "id": 1372096,
+          "modId": 876781,
+          "title": "Mapleton Cathedral",
+          "description": "Player-made base built in Survival by Jabz",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1372/96/310/172/2025-10-26_21-19-51-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1372/96/2025-10-26_21-19-51-jpg.jpg"
+        },
+        {
+          "id": 1108424,
+          "modId": 876781,
+          "title": "Pillager Outpost",
+          "description": "Pillager Outpost",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/424/310/172/pillager_outpost-png.png",
+          "url": "https://media.forgecdn.net/attachments/1108/424/pillager_outpost-png.png"
+        },
+        {
+          "id": 1108411,
+          "modId": 876781,
+          "title": "Mine with Campsite",
+          "description": "Mine with Campsite\n\n",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/411/310/172/mine_with_campsite-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1108/411/mine_with_campsite-jpg.jpg"
+        },
+        {
+          "id": 1132141,
+          "modId": 876781,
+          "title": "Campfire",
+          "description": "Campfire\n\nFrom the Explorations mod",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1132/141/310/172/2025-03-17_02-27-59-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1132/141/2025-03-17_02-27-59-jpg.jpg"
+        },
+        {
+          "id": 1161369,
+          "modId": 876781,
+          "title": "Lunaranda",
+          "description": "Player-made base built in Survival by Jabz",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1161/369/310/172/2025-04-11_00-43-36-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1161/369/2025-04-11_00-43-36-jpg.jpg"
+        },
+        {
+          "id": 1108409,
+          "modId": 876781,
+          "title": "Sushi Hut",
+          "description": "Sushi Hut\n\nFrom the Farmers Structures mod",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/409/310/172/farmers_structures-sushi-png.png",
+          "url": "https://media.forgecdn.net/attachments/1108/409/farmers_structures-sushi-png.png"
+        },
+        {
+          "id": 1108426,
+          "modId": 876781,
+          "title": "Swamp",
+          "description": "Swamp",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/426/310/172/swamp-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1108/426/swamp-jpg.jpg"
+        },
+        {
+          "id": 1108413,
+          "modId": 876781,
+          "title": "Pumpkin Ruins",
+          "description": "Pumpkin Ruins\n\nFrom the Philip's Ruins mod",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1108/413/310/172/philipsruins_pumpkin_ruins-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1108/413/philipsruins_pumpkin_ruins-jpg.jpg"
+        },
+        {
+          "id": 1336065,
+          "modId": 876781,
+          "title": "Soul Sand Valley",
+          "description": "Featuring custom coloring from ingame shader presets",
+          "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1336/65/310/172/2025-09-25_10-44-51-jpg.jpg",
+          "url": "https://media.forgecdn.net/attachments/1336/65/2025-09-25_10-44-51-jpg.jpg"
+        }
+      ],
+      "id": 876781,
+      "gameId": 432,
+      "name": "Better MC [FORGE] BMC4",
+      "slug": "better-mc-forge-bmc4",
+      "links": {
+        "websiteUrl": "https://www.curseforge.com/minecraft/modpacks/better-mc-forge-bmc4",
+        "wikiUrl": "",
+        "issuesUrl": "https://github.com/LunaPixelStudios/Better-MC/issues",
+        "sourceUrl": null
+      },
+      "summary": "Version 1.20.1 | A Proper Vanilla+ Modpack | Don't play Vanilla play this!",
+      "status": 4,
+      "downloadCount": 14731057,
+      "isFeatured": false,
+      "primaryCategoryId": 5128,
+      "categories": [
+        {
+          "id": 4475,
+          "gameId": 432,
+          "name": "Adventure and RPG",
+          "slug": "adventure-and-rpg",
+          "url": "https://www.curseforge.com/minecraft/modpacks/adventure-and-rpg",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/480/635596775049811800.png",
+          "dateModified": "2015-02-16T15:58:24.98Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4476,
+          "gameId": 432,
+          "name": "Exploration",
+          "slug": "exploration",
+          "url": "https://www.curseforge.com/minecraft/modpacks/exploration",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/486/635596815896417213.png",
+          "dateModified": "2015-02-16T17:06:29.69Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 5128,
+          "gameId": 432,
+          "name": "Vanilla+",
+          "slug": "vanilla",
+          "url": "https://www.curseforge.com/minecraft/modpacks/vanilla",
+          "iconUrl": "https://media.forgecdn.net/avatars/451/388/637713564446392425.png",
+          "dateModified": "2021-11-01T09:40:44.687Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4484,
+          "gameId": 432,
+          "name": "Multiplayer",
+          "slug": "multiplayer",
+          "url": "https://www.curseforge.com/minecraft/modpacks/multiplayer",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/481/635596792838491141.png",
+          "dateModified": "2015-02-16T16:28:03.85Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        },
+        {
+          "id": 4478,
+          "gameId": 432,
+          "name": "Quests",
+          "slug": "quests",
+          "url": "https://www.curseforge.com/minecraft/modpacks/quests",
+          "iconUrl": "https://media.forgecdn.net/avatars/14/487/635596816137981263.png",
+          "dateModified": "2015-02-16T17:06:53.797Z",
+          "isClass": false,
+          "classId": 4471,
+          "parentCategoryId": 4471
+        }
+      ],
+      "classId": 4471,
+      "authors": [
+        {
+          "id": 102066281,
+          "name": "LunaPixelStudios",
+          "url": "https://www.curseforge.com/members/lunapixelstudios",
+          "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/cf4d8062-b64f-4895-80e3-bbeeb305a227-profile_image-150x150.png"
+        }
+      ],
+      "logo": {
+        "id": 1095963,
+        "modId": 876781,
+        "title": "638641361377079410.png",
+        "description": "",
+        "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/1095/963/256/256/638641361377079410.png",
+        "url": "https://media.forgecdn.net/avatars/1095/963/638641361377079410.png"
+      },
+      "mainFileId": 7299697,
+      "latestFiles": [
+        {
+          "id": 4825519,
+          "gameId": 432,
+          "modId": 876781,
+          "isAvailable": true,
+          "displayName": "Better MC [FORGE] 1.20.1 v19",
+          "fileName": "Better MC [FORGE] v19.zip",
+          "releaseType": 2,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "f9a04400a8d421775a60dc745f681155b29ebc59",
+              "algo": 1
+            },
+            {
+              "value": "84320ffc672e98d6b9c30969fca9a379",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2023-10-30T02:15:19.92Z",
+          "fileLength": 82921569,
+          "downloadCount": 69390,
+          "downloadUrl": "https://edge.forgecdn.net/files/4825/519/Better%20MC%20%5bFORGE%5d%20v19.zip",
+          "gameVersions": [
+            "1.20.1",
+            "Forge"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.20.1",
+              "gameVersionPadded": "0000000001.0000000020.0000000001",
+              "gameVersion": "1.20.1",
+              "gameVersionReleaseDate": "2023-06-12T14:26:38.477Z",
+              "gameVersionTypeId": 75125
+            },
+            {
+              "gameVersionName": "Forge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+              "gameVersionTypeId": 68441
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 4825533,
+          "fileFingerprint": 3522031811,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 131692260
+            }
+          ]
+        },
+        {
+          "id": 7299697,
+          "gameId": 432,
+          "modId": 876781,
+          "isAvailable": true,
+          "displayName": "BMC4 [FORGE] 1.20.1 v54",
+          "fileName": "Better MC [FORGE] 1.20.1 v54.zip",
+          "releaseType": 1,
+          "fileStatus": 4,
+          "hashes": [
+            {
+              "value": "bf314b17714d4838031bf689f9724410749ea2bf",
+              "algo": 1
+            },
+            {
+              "value": "00e1924e6aa8a4065667558a72e77295",
+              "algo": 2
+            }
+          ],
+          "fileDate": "2025-12-06T08:24:10.817Z",
+          "fileLength": 87156481,
+          "downloadCount": 32804,
+          "fileSizeOnDisk": 115059974,
+          "downloadUrl": "https://edge.forgecdn.net/files/7299/697/Better%20MC%20%5bFORGE%5d%201.20.1%20v54.zip",
+          "gameVersions": [
+            "1.20.1",
+            "Forge",
+            "1.20"
+          ],
+          "sortableGameVersions": [
+            {
+              "gameVersionName": "1.20.1",
+              "gameVersionPadded": "0000000001.0000000020.0000000001",
+              "gameVersion": "1.20.1",
+              "gameVersionReleaseDate": "2023-06-12T14:26:38.477Z",
+              "gameVersionTypeId": 75125
+            },
+            {
+              "gameVersionName": "Forge",
+              "gameVersionPadded": "0",
+              "gameVersion": "",
+              "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+              "gameVersionTypeId": 68441
+            },
+            {
+              "gameVersionName": "1.20",
+              "gameVersionPadded": "0000000001.0000000020",
+              "gameVersion": "1.20",
+              "gameVersionReleaseDate": "2023-06-07T00:00:00Z",
+              "gameVersionTypeId": 75125
+            }
+          ],
+          "dependencies": [],
+          "alternateFileId": 0,
+          "isServerPack": false,
+          "serverPackFileId": 7303630,
+          "fileFingerprint": 1122025921,
+          "modules": [
+            {
+              "name": "manifest.json",
+              "fingerprint": 1386559955
+            },
+            {
+              "name": "modlist.html",
+              "fingerprint": 2850534913
+            },
+            {
+              "name": "overrides",
+              "fingerprint": 2400574371
+            }
+          ]
+        }
+      ],
+      "latestFilesIndexes": [
+        {
+          "gameVersion": "1.20.1",
+          "fileId": 7299697,
+          "filename": "Better MC [FORGE] 1.20.1 v54.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 75125,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.20",
+          "fileId": 7299697,
+          "filename": "Better MC [FORGE] 1.20.1 v54.zip",
+          "releaseType": 1,
+          "gameVersionTypeId": 75125,
+          "modLoader": 1
+        },
+        {
+          "gameVersion": "1.20.1",
+          "fileId": 4825519,
+          "filename": "Better MC [FORGE] v19.zip",
+          "releaseType": 2,
+          "gameVersionTypeId": 75125,
+          "modLoader": 1
+        }
+      ],
+      "latestEarlyAccessFilesIndexes": [],
+      "dateCreated": "2023-06-18T11:55:16.61Z",
+      "dateModified": "2025-12-07T10:55:44.827Z",
+      "dateReleased": "2025-12-07T10:16:49.43Z",
+      "allowModDistribution": true,
+      "gamePopularityRank": 1556,
+      "isAvailable": true,
+      "thumbsUpCount": 0,
+      "featuredProjectTag": 0
+    }
+  ],
+  "pagination": {
+    "index": 0,
+    "pageSize": 3,
+    "resultCount": 3,
+    "totalCount": 113905
+  }
+}
