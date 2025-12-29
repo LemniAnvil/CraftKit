@@ -7,8 +7,10 @@ import Foundation
 
 /// 完整的版本详细信息
 public struct VersionDetails: Codable {
-  /// 启动参数
-  public let arguments: Arguments
+  /// 启动参数（1.13+ 版本使用结构化参数）
+  public let arguments: Arguments?
+  /// Minecraft 参数（1.12.2 及更早版本使用的简单字符串参数）
+  public let minecraftArguments: String?
   /// 资源索引信息
   public let assetIndex: AssetIndex
   /// 资源版本 ID
@@ -23,8 +25,8 @@ public struct VersionDetails: Codable {
   public let javaVersion: JavaVersion
   /// 依赖库列表
   public let libraries: [Library]
-  /// 日志配置
-  public let logging: Logging
+  /// 日志配置（1.11+ 版本提供）
+  public let logging: Logging?
   /// 主类
   public let mainClass: String
   /// 最低启动器版本
@@ -35,6 +37,16 @@ public struct VersionDetails: Codable {
   public let time: Date
   /// 版本类型
   public let type: VersionType
+
+  /// 判断是否为新版本格式（使用结构化 arguments）
+  public var usesStructuredArguments: Bool {
+    return arguments != nil
+  }
+
+  /// 判断是否为旧版本格式（使用简单字符串 minecraftArguments）
+  public var usesLegacyArguments: Bool {
+    return minecraftArguments != nil
+  }
 }
 
 // MARK: - Arguments
@@ -141,6 +153,20 @@ public struct Downloads: Codable {
   public let client: DownloadInfo
   /// 服务端下载信息
   public let server: DownloadInfo?
+  /// 客户端混淆映射（1.14.4+ 版本提供，用于模组开发）
+  public let clientMappings: DownloadInfo?
+  /// 服务端混淆映射（1.14.4+ 版本提供，用于模组开发）
+  public let serverMappings: DownloadInfo?
+  /// Windows 服务端下载信息（某些旧版本提供）
+  public let windowsServer: DownloadInfo?
+
+  enum CodingKeys: String, CodingKey {
+    case client
+    case server
+    case clientMappings = "client_mappings"
+    case serverMappings = "server_mappings"
+    case windowsServer = "windows_server"
+  }
 }
 
 /// 单个下载信息

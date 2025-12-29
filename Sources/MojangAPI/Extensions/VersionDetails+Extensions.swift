@@ -40,25 +40,38 @@ extension VersionDetails {
 
   /// 获取所有游戏参数字符串
   public var gameArgumentStrings: [String] {
-    var result: [String] = []
-    for arg in arguments.game {
-      switch arg {
-      case .string(let value):
-        result.append(value)
-      case .conditional(let conditional):
-        switch conditional.value {
-        case .single(let value):
+    // 新版本使用结构化 arguments
+    if let arguments = arguments {
+      var result: [String] = []
+      for arg in arguments.game {
+        switch arg {
+        case .string(let value):
           result.append(value)
-        case .multiple(let values):
-          result.append(contentsOf: values)
+        case .conditional(let conditional):
+          switch conditional.value {
+          case .single(let value):
+            result.append(value)
+          case .multiple(let values):
+            result.append(contentsOf: values)
+          }
         }
       }
+      return result
     }
-    return result
+
+    // 旧版本使用简单字符串 minecraftArguments
+    if let minecraftArguments = minecraftArguments {
+      return minecraftArguments.components(separatedBy: " ")
+    }
+
+    return []
   }
 
   /// 获取所有 JVM 参数字符串
   public var jvmArgumentStrings: [String] {
+    // 仅新版本提供 JVM 参数
+    guard let arguments = arguments else { return [] }
+
     var result: [String] = []
     for arg in arguments.jvm {
       switch arg {

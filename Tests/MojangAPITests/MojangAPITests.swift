@@ -34,7 +34,7 @@ final class MojangAPITests: XCTestCase {
     let profile = try await client.fetchPlayerProfile(byName: "a_pi")
     XCTAssertEqual(profile.name, "A_Pi")
     XCTAssertEqual(profile.id, "c4bb2799e1664b6f970ca96c9e58f2d3")
-    XCTAssertNil(profile.properties) // 通过名称查询，属性为空
+    XCTAssertNil(profile.properties)  // 通过名称查询，属性为空
   }
 
   func testFetchPlayerProfileByUUID() async throws {
@@ -51,7 +51,7 @@ final class MojangAPITests: XCTestCase {
 
     let texturesPayload = try profile.getTexturesPayload()
     XCTAssertNotNil(texturesPayload, "应该能成功解码纹理载荷")
-    XCTAssertEqual(texturesPayload?.profileName, "A_Pi")
-    XCTAssertEqual(texturesPayload?.textures.SKIN?.metadata?.model, "slim")
+    XCTAssertEqual(texturesPayload.profileName, "A_Pi")
+    XCTAssertEqual(texturesPayload.textures.SKIN?.metadata?.model, "slim")
   }
 }
