@@ -59,112 +59,15 @@ let skinData = try await client.downloadSkin(byName: "Notch")
 
 ## API 文档
 
-### 版本 API
+完整的 API 参考文档：
 
-#### 获取版本清单
+### Mojang API
+- [English Documentation](./Documentation/en/MojangAPI.md)
+- [中文文档](./Documentation/zh-CN/MojangAPI.md)
 
-```swift
-// 使用 v2 API（推荐，包含 SHA1 和合规等级）
-let manifest = try await client.fetchVersionManifest()
-
-// 显式指定 API 版本
-let manifestV1 = try await client.fetchVersionManifest(useV2: false)
-let manifestV2 = try await client.fetchVersionManifest(useV2: true)
-```
-
-**v1 vs v2 差异：**
-- v1: 基础版本信息（id, type, url, time, releaseTime）
-- v2: v1 的所有字段 + `sha1` + `complianceLevel`
-
-详见 [Version Manifest API 文档](./Documentation/VersionManifestAPI.md)
-
-#### 获取版本详细信息
-
-```swift
-// 通过版本 ID
-let details = try await client.fetchVersionDetails(byId: "1.21.4")
-
-// 通过 VersionInfo 对象
-let versionInfo = try await client.findVersion(byId: "1.21.4")
-if let info = versionInfo {
-    let details = try await client.fetchVersionDetails(for: info)
-}
-```
-
-详见 [Version Details API 文档](./Documentation/VersionDetailsAPI.md)
-
-#### 过滤版本
-
-```swift
-let manifest = try await client.fetchVersionManifest()
-
-// 获取所有正式版
-let releases = manifest.versions.filter { $0.type == .release }
-
-// 获取所有快照版
-let snapshots = manifest.versions.filter { $0.type == .snapshot }
-
-// 使用便利方法
-let releaseVersions = try await client.fetchVersions(ofType: .release)
-```
-
-### 玩家档案 API
-
-#### 通过用户名查询
-
-```swift
-let profile = try await client.fetchPlayerProfile(byName: "Notch")
-print("UUID: \(profile.id)")
-print("用户名: \(profile.name)")
-```
-
-#### 通过 UUID 查询
-
-```swift
-// 获取完整档案（包含皮肤信息）
-let profile = try await client.fetchPlayerProfile(byUUID: "069a79f4-44e9-4726-a5be-fca90e38aaf5")
-
-// 获取纹理信息
-let textures = try profile.getTexturesPayload()
-if let skin = textures.textures.SKIN {
-    print("皮肤 URL: \(skin.url)")
-    print("皮肤模型: \(skin.skinModel.displayName)")
-}
-```
-
-### 纹理 API
-
-#### 获取皮肤和披风 URL
-
-```swift
-// 获取皮肤 URL
-if let skinURL = try await client.fetchSkinURL(byName: "Notch") {
-    print("皮肤 URL: \(skinURL)")
-}
-
-// 获取披风 URL
-if let capeURL = try await client.fetchCapeURL(byName: "Notch") {
-    print("披风 URL: \(capeURL)")
-}
-```
-
-#### 下载皮肤和披风
-
-```swift
-// 下载皮肤数据
-let skinData = try await client.downloadSkin(byName: "Notch")
-
-#if canImport(UIKit)
-let image = UIImage(data: skinData)
-#elseif canImport(AppKit)
-let image = NSImage(data: skinData)
-#endif
-
-// 下载披风数据
-if let capeData = try? await client.downloadCape(byName: "Notch") {
-    // 处理披风图片
-}
-```
+### CurseForge API
+- [English Documentation](./Documentation/en/CurseForgeAPI.md)
+- [中文文档](./Documentation/zh-CN/CurseForgeAPI.md)
 
 ## 数据模型
 
@@ -329,6 +232,5 @@ MIT License
 
 ## 相关链接
 
-- [Mojang API Wiki](https://wiki.vg/Mojang_API)
-- [Minecraft Wiki](https://minecraft.fandom.com/wiki/Minecraft_Wiki)
-- [Piston Meta API](https://piston-meta.mojang.com/)
+- [Mojang API Wiki](https://web.archive.org/web/20241129181309/https://wiki.vg/Mojang_API)
+- [Minecraft Wiki](https://minecraft.wiki/)
