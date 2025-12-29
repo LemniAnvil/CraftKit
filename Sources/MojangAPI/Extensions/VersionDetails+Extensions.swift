@@ -114,7 +114,9 @@ extension VersionDetails {
     total += assetIndex.size
 
     for library in libraries {
-      total += library.downloads.artifact.size
+      if let artifact = library.downloads.artifact {
+        total += artifact.size
+      }
     }
 
     return total

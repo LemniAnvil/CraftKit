@@ -238,14 +238,20 @@ struct LibrariesListView: View {
 
           Spacer()
 
-          Text(
-            ByteCountFormatter.string(
-              fromByteCount: Int64(library.downloads.artifact.size),
-              countStyle: .file
+          if let artifact = library.downloads.artifact {
+            Text(
+              ByteCountFormatter.string(
+                fromByteCount: Int64(artifact.size),
+                countStyle: .file
+              )
             )
-          )
-          .font(.caption2)
-          .foregroundStyle(.secondary)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+          } else {
+            Text("Native")
+              .font(.caption2)
+              .foregroundStyle(.secondary)
+          }
         }
       }
       .padding(.vertical, 2)

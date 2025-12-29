@@ -203,8 +203,10 @@ public struct Library: Codable {
 
 /// 库下载信息
 public struct LibraryDownloads: Codable {
-  /// 主要构件
-  public let artifact: Artifact
+  /// 主要构件（某些原生库可能没有，只有 classifiers）
+  public let artifact: Artifact?
+  /// 平台特定的构件（原生库使用）
+  public let classifiers: [String: Artifact]?
 }
 
 /// 构件信息

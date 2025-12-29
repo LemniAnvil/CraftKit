@@ -70,9 +70,13 @@ import Foundation
         if let version = library.version {
           print("    Version: \(version)")
         }
-        print(
-          "    Size: \(ByteCountFormatter.string(fromByteCount: Int64(library.downloads.artifact.size), countStyle: .file))"
-        )
+        if let artifact = library.downloads.artifact {
+          print(
+            "    Size: \(ByteCountFormatter.string(fromByteCount: Int64(artifact.size), countStyle: .file))"
+          )
+        } else {
+          print("    Type: Native library (platform-specific)")
+        }
       }
 
     } catch {
