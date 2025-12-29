@@ -265,4 +265,113 @@ final class CurseForgeAPITests: XCTestCase {
       }
     }
   }
+
+  /// 测试获取整合包详情
+  /// 验证能够通过 ID 获取单个整合包的完整信息
+  func testFetchModDetails() async throws {
+    // RLCraft 的 ID
+    let modId = 285109
+
+    let response = try await client.fetchModDetails(modId: modId)
+    let mod = response.data
+
+    print("\n整合包详情 API 测试:")
+    print("  ID: \(mod.id)")
+    print("  名称: \(mod.name)")
+    print("  Slug: \(mod.slug)")
+    print("  简介: \(mod.summary)")
+    print("  下载量: \(mod.formattedDownloadCount)")
+    print("  状态: \(mod.status)")
+    print("  游戏 ID: \(mod.gameId)")
+    print("  分类 ID: \(mod.classId)")
+    print("  是否精选: \(mod.isFeatured ? "是" : "否")")
+    print("  热门度排名: #\(mod.gamePopularityRank)")
+
+    // 验证基本信息
+    XCTAssertEqual(mod.id, modId, "ID 应该匹配")
+    XCTAssertEqual(mod.name, "RLCraft", "名称应该是 RLCraft")
+    XCTAssertFalse(mod.summary.isEmpty, "简介不应为空")
+    XCTAssertGreaterThan(mod.downloadCount, 0, "下载量应该大于 0")
+
+    // 验证分类
+    XCTAssertFalse(mod.categories.isEmpty, "应该有分类")
+    print("\n  分类 (\(mod.categories.count)):")
+    for category in mod.categories {
+      print("    - \(category.name)")
+    }
+
+    // 验证作者
+    XCTAssertFalse(mod.authors.isEmpty, "应该有作者")
+    print("\n  作者 (\(mod.authors.count)):")
+    for author in mod.authors {
+      print("    - \(author.name)")
+    }
+
+    // 验证 Logo
+    print("\n  Logo:")
+    print("    URL: \(mod.logo.url)")
+    print("    缩略图: \(mod.logo.thumbnailUrl)")
+
+    // 验证链接
+    print("\n  链接:")
+    print("    网站: \(mod.links.websiteUrl)")
+    if let wikiUrl = mod.links.wikiUrl {
+      print("    Wiki: \(wikiUrl)")
+    }
+
+    // 验证文件
+    XCTAssertFalse(mod.latestFiles.isEmpty, "应该有文件")
+    print("\n  文件 (\(mod.latestFiles.count)):")
+    for file in mod.latestFiles.prefix(3) {
+      print("    - \(file.fileName)")
+      print("      大小: \(file.formattedFileSize)")
+      print("      下载量: \(file.downloadCount)")
+      print("      发布类型: \(file.releaseTypeName)")
+      print("      游戏版本: \(file.gameVersions.joined(separator: ", "))")
+    }
+
+    // 验证支持的游戏版本
+    let versions = mod.supportedGameVersions
+    XCTAssertFalse(versions.isEmpty, "应该支持至少一个游戏版本")
+    print("\n  支持的游戏版本 (\(versions.count)):")
+    print("    \(versions.prefix(10).joined(separator: ", "))")
+
+    // 验证社交链接
+    if let socialLinks = mod.socialLinks, !socialLinks.isEmpty {
+      print("\n  社交链接 (\(socialLinks.count)):")
+      for social in socialLinks {
+        print("    - \(social.typeName): \(social.url)")
+      }
+    }
+
+    // 验证截图（如果有）
+    if let screenshots = mod.screenshots, !screenshots.isEmpty {
+      print("\n  截图 (\(screenshots.count)):")
+      for screenshot in screenshots.prefix(3) {
+        print("    - \(screenshot.title)")
+      }
+    }
+  }
+
+  /// 测试获取不存在的 Mod
+  /// 验证错误处理
+  func testFetchNonExistentMod() async throws {
+    let invalidModId = 999_999_999
+
+    do {
+      _ = try await client.fetchModDetails(modId: invalidModId)
+      XCTFail("应该抛出错误")
+    } catch let error as CurseForgeAPIError {
+      switch error {
+      case .serverError(let statusCode):
+        print("\n获取不存在的 Mod:")
+        print("  状态码: \(statusCode)")
+        XCTAssertEqual(statusCode, 404, "应该返回 404")
+      default:
+        XCTFail("应该是服务器错误: \(error)")
+      }
+    } catch {
+      XCTFail("未知错误: \(error)")
+    }
+  }
 }

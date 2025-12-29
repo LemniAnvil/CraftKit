@@ -1,0 +1,351 @@
+{
+    "data": {
+        "screenshots": [],
+        "id": 285109,
+        "gameId": 432,
+        "name": "RLCraft",
+        "slug": "rlcraft",
+        "links": {
+            "websiteUrl": "https://www.curseforge.com/minecraft/modpacks/rlcraft",
+            "wikiUrl": "https://rlcraft.wiki.gg/",
+            "issuesUrl": null,
+            "sourceUrl": null
+        },
+        "summary": "A modpack specially designed to bring an incredibly hardcore and semi-realism challenge revolving around survival, RPG elements, and adventure-like exploration.",
+        "status": 4,
+        "downloadCount": 27807323,
+        "isFeatured": false,
+        "primaryCategoryId": 4475,
+        "categories": [
+            {
+                "id": 4475,
+                "gameId": 432,
+                "name": "Adventure and RPG",
+                "slug": "adventure-and-rpg",
+                "url": "https://www.curseforge.com/minecraft/modpacks/adventure-and-rpg",
+                "iconUrl": "https://media.forgecdn.net/avatars/14/480/635596775049811800.png",
+                "dateModified": "2015-02-16T15:58:24.98Z",
+                "isClass": false,
+                "classId": 4471,
+                "parentCategoryId": 4471
+            },
+            {
+                "id": 4483,
+                "gameId": 432,
+                "name": "Combat / PvP",
+                "slug": "combat-pvp",
+                "url": "https://www.curseforge.com/minecraft/modpacks/combat-pvp",
+                "iconUrl": "https://media.forgecdn.net/avatars/14/313/635591779575605594.png",
+                "dateModified": "2015-02-10T21:12:37.56Z",
+                "isClass": false,
+                "classId": 4471,
+                "parentCategoryId": 4471
+            },
+            {
+                "id": 4476,
+                "gameId": 432,
+                "name": "Exploration",
+                "slug": "exploration",
+                "url": "https://www.curseforge.com/minecraft/modpacks/exploration",
+                "iconUrl": "https://media.forgecdn.net/avatars/14/486/635596815896417213.png",
+                "dateModified": "2015-02-16T17:06:29.69Z",
+                "isClass": false,
+                "classId": 4471,
+                "parentCategoryId": 4471
+            },
+            {
+                "id": 4479,
+                "gameId": 432,
+                "name": "Hardcore",
+                "slug": "hardcore",
+                "url": "https://www.curseforge.com/minecraft/modpacks/hardcore",
+                "iconUrl": "https://media.forgecdn.net/avatars/14/473/635596760504656528.png",
+                "dateModified": "2015-02-16T15:34:10.467Z",
+                "isClass": false,
+                "classId": 4471,
+                "parentCategoryId": 4471
+            },
+            {
+                "id": 4473,
+                "gameId": 432,
+                "name": "Magic",
+                "slug": "magic",
+                "url": "https://www.curseforge.com/minecraft/modpacks/magic",
+                "iconUrl": "https://media.forgecdn.net/avatars/14/474/635596760578719019.png",
+                "dateModified": "2015-02-16T15:34:17.873Z",
+                "isClass": false,
+                "classId": 4471,
+                "parentCategoryId": 4471
+            }
+        ],
+        "classId": 4471,
+        "authors": [
+            {
+                "id": 11806322,
+                "name": "Shivaxi",
+                "url": "https://www.curseforge.com/members/shivaxi",
+                "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/41f3fd00-f746-4d74-bf89-e15dd5123d67-profile_image-150x150.png"
+            }
+        ],
+        "logo": {
+            "id": 468243,
+            "modId": 285109,
+            "title": "637751369169569212.png",
+            "description": "",
+            "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/468/243/256/256/637751369169569212.png",
+            "url": "https://media.forgecdn.net/avatars/468/243/637751369169569212.png"
+        },
+        "mainFileId": 4612979,
+        "latestFiles": [
+            {
+                "id": 2708027,
+                "gameId": 432,
+                "modId": 285109,
+                "isAvailable": true,
+                "displayName": "RLCraft 1.12.2 - Alpha v2.0.zip",
+                "fileName": "RLCraft 1.12.2 - Alpha v2.0.zip",
+                "releaseType": 3,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "404470412ea021c8936a8267f21e3a72d361509b",
+                        "algo": 1
+                    },
+                    {
+                        "value": "f60b063ffaf0167730ae9f77e69eee27",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2019-05-06T18:46:15.887Z",
+                "fileLength": 1520136,
+                "downloadCount": 78979,
+                "downloadUrl": "https://edge.forgecdn.net/files/2708/27/RLCraft%201.12.2%20-%20Alpha%20v2.0.zip",
+                "gameVersions": [
+                    "1.12.2"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "1.12.2",
+                        "gameVersionPadded": "0000000001.0000000012.0000000002",
+                        "gameVersion": "1.12.2",
+                        "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+                        "gameVersionTypeId": 628
+                    }
+                ],
+                "dependencies": [],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "fileFingerprint": 3912887938,
+                "modules": [
+                    {
+                        "name": "manifest.json",
+                        "fingerprint": 240131959
+                    }
+                ]
+            },
+            {
+                "id": 2935316,
+                "gameId": 432,
+                "modId": 285109,
+                "isAvailable": true,
+                "displayName": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+                "fileName": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+                "releaseType": 2,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "7f2402916e448241f597cc66afff983458523228",
+                        "algo": 1
+                    },
+                    {
+                        "value": "6d72fea71eeceba791792d5b2c716b42",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2020-04-20T08:11:34.3Z",
+                "fileLength": 30627569,
+                "downloadCount": 4762415,
+                "downloadUrl": "https://edge.forgecdn.net/files/2935/316/RLCraft%201.12.2%20-%20Beta%20v2.8.2.zip",
+                "gameVersions": [
+                    "1.12.2"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "1.12.2",
+                        "gameVersionPadded": "0000000001.0000000012.0000000002",
+                        "gameVersion": "1.12.2",
+                        "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+                        "gameVersionTypeId": 628
+                    }
+                ],
+                "dependencies": [],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "serverPackFileId": 2935323,
+                "fileFingerprint": 2523815034,
+                "modules": [
+                    {
+                        "name": "manifest.json",
+                        "fingerprint": 3991312357
+                    }
+                ]
+            },
+            {
+                "id": 4487646,
+                "gameId": 432,
+                "modId": 285109,
+                "isAvailable": true,
+                "displayName": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+                "fileName": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+                "releaseType": 1,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "3517e6e5eed0bd65ecd35a9b2fc875ff3c2fddec",
+                        "algo": 1
+                    },
+                    {
+                        "value": "2d2222865fd3a230a820830457bb99a2",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2023-04-12T21:45:11.603Z",
+                "fileLength": 51345522,
+                "downloadCount": 938739,
+                "downloadUrl": "https://edge.forgecdn.net/files/4487/646/RLCraft%201.12.2%20-%20Release%20v2.9.2d.zip",
+                "gameVersions": [
+                    "Forge",
+                    "1.12.2"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "Forge",
+                        "gameVersionPadded": "0",
+                        "gameVersion": "",
+                        "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
+                        "gameVersionTypeId": 68441
+                    },
+                    {
+                        "gameVersionName": "1.12.2",
+                        "gameVersionPadded": "0000000001.0000000012.0000000002",
+                        "gameVersion": "1.12.2",
+                        "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+                        "gameVersionTypeId": 628
+                    }
+                ],
+                "dependencies": [],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "serverPackFileId": 4487650,
+                "fileFingerprint": 2676809031,
+                "modules": [
+                    {
+                        "name": "manifest.json",
+                        "fingerprint": 2192261845
+                    }
+                ]
+            },
+            {
+                "id": 4612979,
+                "gameId": 432,
+                "modId": 285109,
+                "isAvailable": true,
+                "displayName": "RLCraft 1.12.2 - Release v2.9.3.zip",
+                "fileName": "RLCraft 1.12.2 - Release v2.9.3.zip",
+                "releaseType": 1,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "11b0261e4dde9169173b24b88cbc1622859f4a68",
+                        "algo": 1
+                    },
+                    {
+                        "value": "1311977c2d75ec837a3e255a1ee75b98",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2023-06-27T23:31:57.797Z",
+                "fileLength": 51324367,
+                "downloadCount": 7529366,
+                "downloadUrl": "https://edge.forgecdn.net/files/4612/979/RLCraft%201.12.2%20-%20Release%20v2.9.3.zip",
+                "gameVersions": [
+                    "1.12.2"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "1.12.2",
+                        "gameVersionPadded": "0000000001.0000000012.0000000002",
+                        "gameVersion": "1.12.2",
+                        "gameVersionReleaseDate": "2017-09-18T05:00:00Z",
+                        "gameVersionTypeId": 628
+                    }
+                ],
+                "dependencies": [],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "serverPackFileId": 4612990,
+                "fileFingerprint": 3659337089,
+                "modules": [
+                    {
+                        "name": "manifest.json",
+                        "fingerprint": 4231431615
+                    }
+                ]
+            }
+        ],
+        "latestFilesIndexes": [
+            {
+                "gameVersion": "1.12.2",
+                "fileId": 4612979,
+                "filename": "RLCraft 1.12.2 - Release v2.9.3.zip",
+                "releaseType": 1,
+                "gameVersionTypeId": 628
+            },
+            {
+                "gameVersion": "1.12.2",
+                "fileId": 4487646,
+                "filename": "RLCraft 1.12.2 - Release v2.9.2d.zip",
+                "releaseType": 1,
+                "gameVersionTypeId": 628,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.12.2",
+                "fileId": 2935316,
+                "filename": "RLCraft 1.12.2 - Beta v2.8.2.zip",
+                "releaseType": 2,
+                "gameVersionTypeId": 628
+            },
+            {
+                "gameVersion": "1.12.2",
+                "fileId": 2708027,
+                "filename": "RLCraft 1.12.2 - Alpha v2.0.zip",
+                "releaseType": 3,
+                "gameVersionTypeId": 628
+            },
+            {
+                "gameVersion": "1.11.2",
+                "fileId": 2532808,
+                "filename": "RLCraft 1.11.2 - Beta v1.4.zip",
+                "releaseType": 2,
+                "gameVersionTypeId": 599
+            }
+        ],
+        "latestEarlyAccessFilesIndexes": [],
+        "dateCreated": "2018-01-11T16:48:31.147Z",
+        "dateModified": "2025-04-02T07:44:02.187Z",
+        "dateReleased": "2023-12-16T18:44:42.473Z",
+        "allowModDistribution": true,
+        "gamePopularityRank": 1945,
+        "isAvailable": true,
+        "hasCommentsEnabled": false,
+        "thumbsUpCount": 0,
+        "socialLinks": [
+            {
+                "type": 10,
+                "url": "https://www.youtube.com/Shivaxi"
+            }
+        ],
+        "featuredProjectTag": 0
+    }
+}

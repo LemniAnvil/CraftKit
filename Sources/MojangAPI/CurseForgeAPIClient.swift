@@ -212,6 +212,19 @@ public class CurseForgeAPIClient {
     return try await request(url: url)
   }
 
+  // MARK: - Mod 详情 API
+
+  /// 获取 Mod/整合包详情
+  /// - Parameter modId: Mod 或整合包的 ID
+  /// - Returns: Mod/整合包的完整详细信息
+  public func fetchModDetails(modId: Int) async throws -> CFModDetailResponse {
+    guard let url = URL(string: "\(configuration.baseURL)/mods/\(modId)") else {
+      throw CurseForgeAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
   // MARK: - 私有方法
 
   private func request<T: Decodable>(url: URL) async throws -> T {

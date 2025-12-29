@@ -23,7 +23,8 @@ struct ModpacksView: View {
     // 从环境变量或配置文件读取 API Key
     // 在实际应用中，应该从安全的配置文件或 Keychain 读取
     // 示例: 从 Info.plist 或环境变量读取
-    let apiKey = ProcessInfo.processInfo.environment["CURSEFORGE_API_KEY"]
+    let apiKey =
+      ProcessInfo.processInfo.environment["CURSEFORGE_API_KEY"]
       ?? "YOUR_API_KEY_HERE"  // 开发时替换为你的 API Key
 
     let config = CurseForgeAPIConfiguration(apiKey: apiKey)
@@ -120,7 +121,8 @@ struct ModpacksView: View {
         ScrollView {
           LazyVStack(spacing: 12) {
             ForEach(modpacks) { modpack in
-              NavigationLink(destination: ModpackDetailView(modpack: modpack, client: client)) {
+              NavigationLink(destination: ModpackDetailView(modpackId: modpack.id, client: client))
+              {
                 ModpackRowView(modpack: modpack)
               }
               .buttonStyle(.plain)

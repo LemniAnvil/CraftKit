@@ -7,6 +7,63 @@ import MojangAPI
 import SwiftUI
 
 struct ModpackDetailView: View {
+  let modpackId: Int
+  let client: CurseForgeAPIClient
+
+  @State private var modpack: CFMod?
+  @State private var isLoading = false
+  @State private var error: Error?
+
+  var body: some View {
+    Group {
+      if isLoading {
+        ProgressView("加载中...")
+      } else if let error = error {
+        VStack(spacing: 16) {
+          Image(systemName: "exclamationmark.triangle")
+            .font(.largeTitle)
+            .foregroundColor(.red)
+          Text("加载失败")
+            .font(.headline)
+          Text(error.localizedDescription)
+            .font(.caption)
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+          Button("重试") {
+            Task {
+              await loadModpackDetails()
+            }
+          }
+        }
+        .padding()
+      } else if let modpack = modpack {
+        ModpackDetailContentView(modpack: modpack, client: client)
+      } else {
+        Text("未找到整合包")
+          .foregroundColor(.secondary)
+      }
+    }
+    .task {
+      await loadModpackDetails()
+    }
+  }
+
+  private func loadModpackDetails() async {
+    isLoading = true
+    error = nil
+
+    do {
+      let response = try await client.fetchModDetails(modId: modpackId)
+      modpack = response.data
+    } catch {
+      self.error = error
+    }
+
+    isLoading = false
+  }
+}
+
+struct ModpackDetailContentView: View {
   let modpack: CFMod
   let client: CurseForgeAPIClient
 
