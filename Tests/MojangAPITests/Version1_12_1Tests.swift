@@ -10,10 +10,13 @@ import XCTest
 final class Version1_12_1Tests: XCTestCase {
 
   func testParse1_12_1() throws {
-    let currentPath = FileManager.default.currentDirectoryPath
-    let fixturePath = "\(currentPath)/Fixtures/1.12.1.json"
+    // 使用 #file 获取当前测试文件的路径，然后导航到 Fixtures 目录
+    let testFileURL = URL(fileURLWithPath: #file)
+    let testDirectory = testFileURL.deletingLastPathComponent()
+    let projectRoot = testDirectory.deletingLastPathComponent().deletingLastPathComponent()
+    let fixturePath = projectRoot.appendingPathComponent("Fixtures/1.12.1.json")
 
-    let data = try Data(contentsOf: URL(fileURLWithPath: fixturePath))
+    let data = try Data(contentsOf: fixturePath)
 
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601

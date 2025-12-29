@@ -12,9 +12,11 @@ final class VersionDetailsCompatibilityTests: XCTestCase {
   // MARK: - Fixture Loading
 
   func loadFixture(named filename: String) throws -> Data {
-    let currentPath = FileManager.default.currentDirectoryPath
-    let fixturePath = "\(currentPath)/Fixtures/\(filename)"
-    return try Data(contentsOf: URL(fileURLWithPath: fixturePath))
+    let testFileURL = URL(fileURLWithPath: #file)
+    let testDirectory = testFileURL.deletingLastPathComponent()
+    let projectRoot = testDirectory.deletingLastPathComponent().deletingLastPathComponent()
+    let fixturePath = projectRoot.appendingPathComponent("Fixtures/\(filename)")
+    return try Data(contentsOf: fixturePath)
   }
 
   // MARK: - New Version Format Tests
