@@ -97,4 +97,32 @@ final class PlayerUUIDTests: XCTestCase {
     print("轻量级方法 UUID: \(playerUUID.id)")
     print("完整档案方法 UUID: \(playerProfile.id)")
   }
+
+  /// 测试批量获取 UUID
+  func testFetchUUIDs() async throws {
+    let names = ["1ris_W", "Notch", "jeb_"]
+    let results = try await client.fetchUUIDs(names: names)
+
+    XCTAssertFalse(results.isEmpty)
+    XCTAssertNotNil(results["1ris_W"])
+    print("批量查询结果: \(results)")
+  }
+
+  /// 测试批量获取 UUID 空数组
+  func testFetchUUIDsEmpty() async throws {
+    let results = try await client.fetchUUIDs(names: [])
+    XCTAssertTrue(results.isEmpty)
+  }
+
+  /// 测试获取被封禁服务器列表
+  func testFetchBlockedServers() async throws {
+    let servers = try await client.fetchBlockedServers()
+
+    XCTAssertFalse(servers.isEmpty)
+    // 每个条目应该是 SHA1 哈希（40个十六进制字符）
+    if let first = servers.first {
+      XCTAssertEqual(first.count, 40)
+    }
+    print("被封禁服务器数量: \(servers.count)")
+  }
 }

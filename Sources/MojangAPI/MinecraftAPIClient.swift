@@ -106,6 +106,34 @@ public class MinecraftAPIClient {
     return try await request(url: url, notFoundError: .playerNotFound(uuid))
   }
 
+  /// 批量获取多个用户名的 UUID（最多10个）
+  public func fetchUUIDs(names: [String]) async throws -> [String: String] {
+    guard !names.isEmpty else { return [:] }
+    let limitedNames = Array(names.prefix(10))
+    let url = try buildURL("\(configuration.apiBaseURL)/profiles/minecraft")
+    let data = try await postRequest(url: url, body: limitedNames)
+    let results = try decoder.decode([[String: String]].self, from: data)
+    return Dictionary(
+      uniqueKeysWithValues: results.compactMap { dict in
+        guard let name = dict["name"], let id = dict["id"] else { return nil }
+        return (name, id)
+      })
+  }
+
+  /// 获取被封禁服务器的 SHA1 哈希列表
+  public func fetchBlockedServers() async throws -> [String] {
+    let url = try buildURL("\(configuration.sessionServerBaseURL)/blockedservers")
+    let (data, response) = try await session.data(from: url)
+    guard let httpResponse = response as? HTTPURLResponse,
+      (200...299).contains(httpResponse.statusCode)
+    else {
+      throw MinecraftAPIError.serverError(
+        statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
+    }
+    guard let text = String(data: data, encoding: .utf8) else { return [] }
+    return text.split(separator: "\n").map(String.init)
+  }
+
   /// 通过用户名获取 UUID（轻量级接口）
   public func fetchPlayerUUID(byName name: String) async throws -> PlayerUUID {
     guard !name.trimmingCharacters(in: .whitespaces).isEmpty else {
@@ -122,6 +150,12 @@ public class MinecraftAPIClient {
     }
     let url = try buildURL("\(configuration.servicesBaseURL)/minecraft/profile/lookup/name/\(name)")
     return try await request(url: url, notFoundError: .playerNotFound(name))
+  }
+
+  /// 通过 UUID 获取用户名（轻量级便捷方法）
+  public func fetchUsername(byUUID uuid: String) async throws -> String {
+    let cleanUUID = uuid.replacingOccurrences(of: "-", with: "")
+    return try await fetchPlayerProfile(byUUID: cleanUUID).name
   }
 
   /// 通过 UUID 获取完整档案信息
@@ -252,6 +286,21 @@ public class MinecraftAPIClient {
       throw MinecraftAPIError.invalidURL
     }
     return url
+  }
+
+  private func postRequest<T: Encodable>(url: URL, body: T) async throws -> Data {
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = try JSONEncoder().encode(body)
+    let (data, response) = try await session.data(for: request)
+    guard let httpResponse = response as? HTTPURLResponse,
+      (200...299).contains(httpResponse.statusCode)
+    else {
+      throw MinecraftAPIError.serverError(
+        statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
+    }
+    return data
   }
 
   private func request<T: Decodable>(url: URL, notFoundError: MinecraftAPIError? = nil) async throws
