@@ -71,43 +71,10 @@ public class CurseForgeAPIClient {
   public init(configuration: CurseForgeAPIConfiguration) {
     self.configuration = configuration
 
-    // CurseForge API 使用自定义日期格式（ISO8601 但毫秒位数可变）
-    let dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.custom { decoder in
-      let container = try decoder.singleValueContainer()
-      let dateString = try container.decode(String.self)
-
-      // 尝试不同的日期格式
-      let formatters = [
-        "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'",  // 7位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",  // 6位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'",  // 5位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'",  // 4位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",  // 3位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.SS'Z'",  // 2位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss.S'Z'",  // 1位毫秒
-        "yyyy-MM-dd'T'HH:mm:ss'Z'",  // 无毫秒
-      ]
-
-      let isoFormatter = DateFormatter()
-      isoFormatter.locale = Locale(identifier: "en_US_POSIX")
-      isoFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-      for format in formatters {
-        isoFormatter.dateFormat = format
-        if let date = isoFormatter.date(from: dateString) {
-          return date
-        }
-      }
-
-      throw DecodingError.dataCorruptedError(
-        in: container,
-        debugDescription: "无法解析日期字符串: \(dateString)"
-      )
-    }
-
+    // CurseForge API 使用灵活的 ISO8601 日期格式（毫秒位数可变）
     self.baseClient = BaseAPIClient(
       configuration: configuration,
-      dateDecodingStrategy: dateDecodingStrategy
+      dateDecodingStrategy: .flexibleISO8601
     )
   }
 
