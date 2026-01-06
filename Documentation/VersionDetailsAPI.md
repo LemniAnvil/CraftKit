@@ -75,22 +75,25 @@ The main structure containing all version metadata:
 
 ```swift
 public struct VersionDetails: Codable {
-    public let arguments: Arguments           // Launch arguments
-    public let assetIndex: AssetIndex        // Asset information
-    public let assets: String                // Asset version ID
-    public let complianceLevel: Int          // Compliance level
-    public let downloads: Downloads          // Download URLs
-    public let id: String                    // Version ID
-    public let javaVersion: JavaVersion      // Required Java version
-    public let libraries: [Library]          // Dependencies
-    public let logging: Logging              // Log configuration
-    public let mainClass: String             // Main class name
-    public let minimumLauncherVersion: Int   // Min launcher version
-    public let releaseTime: Date             // Release timestamp
-    public let time: Date                    // Update timestamp
-    public let type: VersionType             // Version type
+    public let arguments: Arguments?          // Structured launch arguments (1.13+)
+    public let minecraftArguments: String?    // Legacy flat string args (1.12.2-)
+    public let assetIndex: AssetIndex         // Asset information
+    public let assets: String                 // Asset version ID
+    public let complianceLevel: Int           // Compliance level
+    public let downloads: Downloads           // Download URLs
+    public let id: String                     // Version ID
+    public let javaVersion: JavaVersion       // Required Java version
+    public let libraries: [Library]           // Dependencies
+    public let logging: Logging?              // Log configuration (may be absent)
+    public let mainClass: String              // Main class name
+    public let minimumLauncherVersion: Int    // Min launcher version
+    public let releaseTime: Date              // Release timestamp
+    public let time: Date                     // Update timestamp
+    public let type: VersionType              // Version type
 }
 ```
+
+> Versions before 1.13 only provide `minecraftArguments`, while modern versions expose `arguments`. Check both to support every release.
 
 ## Useful Extensions
 

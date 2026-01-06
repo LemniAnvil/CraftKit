@@ -1,121 +1,112 @@
-# MojangAPI - Swift Minecraft API Client
+# MojangAPI – Swift Minecraft API Client
 
-一个现代的、类型安全的 Swift 客户端库，用于访问 Mojang 的 Minecraft API。
+A modern, type-safe Swift package for Mojang's Minecraft services plus CurseForge search APIs. The package exposes async/await friendly networking, first-class models, and a demo app to showcase every major feature.
 
-## 特性
+> 需要中文说明？请查看 [`Documentation/zh-CN/README.md`](./Documentation/zh-CN/README.md)。
+
+## Features
 
 ### Mojang API
-- ✅ 版本信息 - 获取所有 Minecraft 版本列表和详细信息
-- ✅ 玩家档案 - 通过用户名或 UUID 查询玩家信息
-- ✅ 皮肤和披风 - 下载玩家皮肤和披风
-- ✅ API 版本兼容 - 同时支持 v1 和 v2 版本清单 API
+- Version manifest + details (v1 + v2)
+- Player profiles by name or UUID
+- Skin and cape download helpers
+- Authenticated client for uploading/changing skins
 
 ### CurseForge API
-- ✅ 整合包搜索 - 搜索和过滤 Minecraft 整合包
-- ✅ Mod 搜索 - 搜索 Minecraft 模组
-- ✅ 详细信息 - 获取整合包/模组的完整详情
-- ✅ 分页支持 - 完整的分页导航功能
-- ✅ 多种排序 - 按下载量、更新时间、名称等排序
-- ✅ 版本过滤 - 按游戏版本和 Mod 加载器过滤
+- Modpack and mod search with filters
+- Complete result details and pagination helpers
+- Sorting (downloads, updated time, name, etc.)
+- Filter by game version and loader
 
-### 技术特性
-- ✅ 类型安全 - 完整的 Swift 类型支持
-- ✅ Async/Await - 现代的异步 API
-- ✅ 错误处理 - 完善的错误处理机制
-- ✅ 双语文档 - 完整的中英文文档
-- ✅ Demo 应用 - 包含功能完整的示例应用
+### Technical goodies
+- Pure Swift, type-safe models
+- Async/Await friendly APIs with rich error surfaces
+- Shared networking stack with ISO8601 decoding helpers
+- Bilingual docs (English + Chinese)
+- Demo SwiftUI app showcasing Mojang + CurseForge flows
 
-## 安装
-
-### Swift Package Manager
-
-在 `Package.swift` 中添加依赖：
+## Installation (Swift Package Manager)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/MojangAPI.git", from: "1.0.0")
+    .package(url: "https://github.com/LemniAnvil/MojangAPI.git", from: "1.0.0")
 ]
 ```
 
-## 快速开始
-
-### 获取版本信息
+## Quick Start
 
 ```swift
 import MojangAPI
 
 let client = MinecraftAPIClient()
 
-// 获取版本清单
+// Fetch the manifest
 let manifest = try await client.fetchVersionManifest()
-print("最新正式版: \(manifest.latest.release)")
-print("最新快照版: \(manifest.latest.snapshot)")
+print("Latest release: \(manifest.latest.release)")
+print("Latest snapshot: \(manifest.latest.snapshot)")
 
-// 获取特定版本的详细信息
+// Version details
 let details = try await client.fetchVersionDetails(byId: "1.21.4")
-print("Java 版本: \(details.javaVersion.majorVersion)")
-print("下载大小: \(details.formattedDownloadSize)")
+print("Java version: \(details.javaVersion.majorVersion)")
+print("Download size: \(details.formattedDownloadSize)")
 ```
 
-### 查询玩家信息
+### Player profiles and skins
 
 ```swift
-// 通过用户名查询
 let profile = try await client.fetchPlayerProfile(byName: "Notch")
-print("UUID: \(profile.id)")
-print("用户名: \(profile.name)")
+print(profile.id)
 
-// 下载玩家皮肤
-let skinData = try await client.downloadSkin(byName: "Notch")
-// 使用 skinData 显示图片
+let skinData = try await client.downloadSkin(byUUID: profile.id)
+// render skinData in UIImage/NSImage
 ```
 
-## API 文档
+### Authenticated skin upload
 
-完整的 API 参考文档：
+```swift
+let auth = MinecraftAuthenticatedClient(bearerToken: "Bearer …")
+let pngData = try Data(contentsOf: URL(fileURLWithPath: "skin.png"))
+try await auth.uploadSkin(imageData: pngData, variant: .classic)
+```
 
-### Mojang API
-- [English Documentation](./Documentation/en/MojangAPI.md)
-- [中文文档](./Documentation/zh-CN/MojangAPI.md)
+## API Documentation
 
-### CurseForge API
-- [English Documentation](./Documentation/en/CurseForgeAPI.md)
-- [中文文档](./Documentation/zh-CN/CurseForgeAPI.md)
+- Mojang API: [English](./Documentation/en/MojangAPI.md) · [中文](./Documentation/zh-CN/MojangAPI.md)
+- CurseForge API: [English](./Documentation/en/CurseForgeAPI.md) · [中文](./Documentation/zh-CN/CurseForgeAPI.md)
 
-## Demo 应用
+Full project README in Chinese now lives at [`Documentation/zh-CN/README.md`](./Documentation/zh-CN/README.md).
 
-项目包含一个完整的 SwiftUI demo 应用，展示所有功能：
+## Demo App
 
-- **Mojang API**
-  - 玩家档案查询和皮肤预览
-  - 版本信息浏览
-  - 版本详细信息查看
-- **CurseForge API**
-  - 整合包搜索和浏览
-  - 整合包详情查看
-  - 分页导航
+A SwiftUI demo highlights both API clients:
 
-运行 demo：
+- Player lookup + skin preview
+- Version browsing + details
+- CurseForge modpack browsing and pagination
+- Skin upload testing screen for authenticated flows
+
+Run it with:
 ```bash
 cd Demo/MojangAPIDemo
 open MojangAPIDemo.xcodeproj
 ```
+Or open `Demo/MojangAPIWorkspace.xcworkspace` to code the app and package side-by-side.
 
-## 系统要求
+## Requirements
 
-- iOS 15.0+ / macOS 12.0+
+- iOS 15 / macOS 12
 - Swift 5.9+
-- Xcode 15.0+
+- Xcode 15+
 
-## 许可证
+## License
 
-MIT License
+MIT
 
-## 贡献
+## Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and PRs are welcome! See `Documentation/zh-CN/README.md` for the Chinese overview.
 
-## 相关链接
+## Helpful Links
 
-- [Mojang API Wiki](https://web.archive.org/web/20241129181309/https://wiki.vg/Mojang_API)
+- [Mojang API Wiki (archived)](https://web.archive.org/web/20241129181309/https://wiki.vg/Mojang_API)
 - [Minecraft Wiki](https://minecraft.wiki/)

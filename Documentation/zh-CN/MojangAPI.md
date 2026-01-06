@@ -140,13 +140,15 @@ public struct VersionInfo: Codable {
 
 ```swift
 public struct VersionDetails: Codable {
+    public let arguments: Arguments?
+    public let minecraftArguments: String?
     public let id: String
     public let type: VersionType
     public let mainClass: String
     public let javaVersion: JavaVersion
     public let downloads: Downloads
     public let libraries: [Library]
-    public let arguments: Arguments
+    public let logging: Logging?
     // ... 更多字段
 }
 ```
@@ -155,9 +157,10 @@ public struct VersionDetails: Codable {
 
 ```swift
 public struct PlayerProfile: Codable {
-    public let id: String              // UUID
-    public let name: String            // 用户名
-    public let properties: [Property]? // 属性（包含纹理）
+    public let id: String                    // UUID
+    public let name: String                  // 用户名
+    public let properties: [ProfileProperty]? // 属性（包含纹理）
+    public let profileActions: [String]?     // Mojang 返回的额外标记
 }
 ```
 
@@ -206,13 +209,12 @@ details.javaVersion.isJava21Plus
 
 ```swift
 profile.hasCustomSkin         // 是否有自定义皮肤
-profile.hasProperties         // 是否有属性
 profile.isSigned              // 是否有签名
 
 // 获取信息
 let textures = try profile.getTexturesPayload()
-let skinURL = try profile.getSkinURL()
-let capeURL = try profile.getCapeURL()
+let skinURL = profile.getSkinURL()
+let capeURL = profile.getCapeURL()
 ```
 
 ## 错误处理

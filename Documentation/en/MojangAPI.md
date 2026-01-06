@@ -140,13 +140,15 @@ public struct VersionInfo: Codable {
 
 ```swift
 public struct VersionDetails: Codable {
+    public let arguments: Arguments?
+    public let minecraftArguments: String?
     public let id: String
     public let type: VersionType
     public let mainClass: String
     public let javaVersion: JavaVersion
     public let downloads: Downloads
     public let libraries: [Library]
-    public let arguments: Arguments
+    public let logging: Logging?
     // ... more fields
 }
 ```
@@ -155,9 +157,10 @@ public struct VersionDetails: Codable {
 
 ```swift
 public struct PlayerProfile: Codable {
-    public let id: String              // UUID
-    public let name: String            // Username
-    public let properties: [Property]? // Properties (includes textures)
+    public let id: String                 // UUID
+    public let name: String               // Username
+    public let properties: [ProfileProperty]? // Signed properties (textures etc.)
+    public let profileActions: [String]?  // Optional action flags from Mojang
 }
 ```
 
@@ -206,13 +209,12 @@ details.javaVersion.isJava21Plus
 
 ```swift
 profile.hasCustomSkin         // Has custom skin
-profile.hasProperties         // Has properties
 profile.isSigned              // Has signature
 
 // Get information
 let textures = try profile.getTexturesPayload()
-let skinURL = try profile.getSkinURL()
-let capeURL = try profile.getCapeURL()
+let skinURL = profile.getSkinURL()
+let capeURL = profile.getCapeURL()
 ```
 
 ## Error Handling

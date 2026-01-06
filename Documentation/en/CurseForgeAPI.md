@@ -31,7 +31,7 @@ let client = CurseForgeAPIClient(configuration: config)
 ### API Key
 
 You need a CurseForge API key to use this API. Get one from:
-- [CurseForge for Studios](https://console.curseforge.com/)
+- [CurseForge for Studios](https://console.curseforge.com/?#/api-keys)
 
 **Security Note**: Never hardcode API keys in your source code. Use environment variables or secure configuration files.
 
@@ -179,12 +179,15 @@ public struct CFFile: Codable {
     public let fileName: String          // File name
     public let displayName: String       // Display name
     public let downloadUrl: String?      // Download URL
-    public let fileSize: Int             // File size in bytes
+    public let fileLength: Int           // File size in bytes
     public let downloadCount: Int        // Download count
     public let releaseType: Int          // 1=Release, 2=Beta, 3=Alpha
     public let gameVersions: [String]    // Supported game versions
     public let hashes: [CFFileHash]      // SHA1/MD5 hashes
+    public let fileDate: Date            // Upload date
+    public let isServerPack: Bool        // Whether it is a server pack
     public let dependencies: [CFFileDependency] // Dependencies
+    // ... more fields
 }
 ```
 
@@ -246,8 +249,6 @@ pagination.nextIndex        // Next page index
 pagination.previousIndex    // Previous page index
 pagination.currentPage      // Current page number (1-based)
 pagination.totalPages       // Total number of pages
-pagination.isFirstPage      // Is first page
-pagination.isLastPage       // Is last page
 ```
 
 ## Convenience Extensions
@@ -273,11 +274,12 @@ mod.websiteLink                  // Official website
 ```swift
 file.formattedFileSize      // "49.0 MB" format
 file.releaseTypeName        // "Release", "Beta", "Alpha"
-file.releaseTypeColor       // Color for release type
 file.sha1Hash               // SHA1 hash value
 file.md5Hash                // MD5 hash value
-file.isSHA1                 // Is this SHA1 hash?
-file.isMD5                  // Is this MD5 hash?
+
+let hash: CFFileHash
+hash.isSHA1                  // Available on CFFileHash
+hash.isMD5
 ```
 
 ## Error Handling

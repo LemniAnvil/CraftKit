@@ -31,7 +31,7 @@ let client = CurseForgeAPIClient(configuration: config)
 ### API 密钥
 
 使用此 API 需要 CurseForge API 密钥。从以下位置获取：
-- [CurseForge for Studios](https://console.curseforge.com/)
+- [CurseForge for Studios](https://console.curseforge.com/?#/api-keys)
 
 **安全提示**：永远不要在源代码中硬编码 API 密钥。使用环境变量或安全配置文件。
 
@@ -179,12 +179,15 @@ public struct CFFile: Codable {
     public let fileName: String          // 文件名
     public let displayName: String       // 显示名称
     public let downloadUrl: String?      // 下载 URL
-    public let fileSize: Int             // 文件大小（字节）
+    public let fileLength: Int           // 文件大小（字节）
     public let downloadCount: Int        // 下载次数
     public let releaseType: Int          // 1=正式版，2=测试版，3=内测版
     public let gameVersions: [String]    // 支持的游戏版本
     public let hashes: [CFFileHash]      // SHA1/MD5 哈希
+    public let fileDate: Date            // 文件日期
+    public let isServerPack: Bool        // 是否为服务器包
     public let dependencies: [CFFileDependency] // 依赖关系
+    // ... 更多字段
 }
 ```
 
@@ -246,8 +249,6 @@ pagination.nextIndex        // 下一页索引
 pagination.previousIndex    // 上一页索引
 pagination.currentPage      // 当前页码（从 1 开始）
 pagination.totalPages       // 总页数
-pagination.isFirstPage      // 是否是第一页
-pagination.isLastPage       // 是否是最后一页
 ```
 
 ## 便利扩展
@@ -273,11 +274,12 @@ mod.websiteLink                  // 官方网站
 ```swift
 file.formattedFileSize      // "49.0 MB" 格式
 file.releaseTypeName        // "正式版"、"测试版"、"内测版"
-file.releaseTypeColor       // 发布类型的颜色
 file.sha1Hash               // SHA1 哈希值
 file.md5Hash                // MD5 哈希值
-file.isSHA1                 // 是否为 SHA1 哈希？
-file.isMD5                  // 是否为 MD5 哈希？
+
+let hash: CFFileHash
+hash.isSHA1                 // 是否为 SHA1（在 CFFileHash 上定义）
+hash.isMD5                  // 是否为 MD5
 ```
 
 ## 错误处理
