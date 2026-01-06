@@ -21,6 +21,10 @@ public enum MinecraftAPIError: Error, LocalizedError {
   case noCapeAvailable
   case textureDownloadFailed
   case versionNotFound(String)
+  case skinTooLarge
+  case invalidSkinFormat
+  case authenticationRequired
+  case invalidBearerToken
 
   public var errorDescription: String? {
     switch self {
@@ -52,6 +56,14 @@ public enum MinecraftAPIError: Error, LocalizedError {
       return "纹理下载失败"
     case .versionNotFound(let versionId):
       return "版本不存在: \(versionId)"
+    case .skinTooLarge:
+      return "皮肤文件过大（最大 24 KB）"
+    case .invalidSkinFormat:
+      return "无效的皮肤格式（必须是 PNG，64x32 或 64x64）"
+    case .authenticationRequired:
+      return "此操作需要认证"
+    case .invalidBearerToken:
+      return "无效的 Bearer Token"
     }
   }
 }

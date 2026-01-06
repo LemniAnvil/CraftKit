@@ -87,6 +87,55 @@ class BaseAPIClient {
     return data
   }
 
+  /// 执行 POST 请求（原始数据）
+  /// - Parameters:
+  ///   - url: 请求 URL
+  ///   - body: 原始请求体数据
+  ///   - headers: 自定义请求头
+  /// - Returns: 响应数据
+  func postRaw(
+    url: URL,
+    body: Data,
+    headers: [String: String] = [:]
+  ) async throws -> Data {
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.httpBody = body
+
+    // 添加自定义请求头
+    for (key, value) in headers {
+      request.setValue(value, forHTTPHeaderField: key)
+    }
+
+    let (data, response) = try await session.data(for: request)
+    try validateResponse(response: response, data: data)
+
+    return data
+  }
+
+  /// 执行 DELETE 请求
+  /// - Parameters:
+  ///   - url: 请求 URL
+  ///   - headers: 自定义请求头
+  /// - Returns: 响应数据
+  func delete(
+    url: URL,
+    headers: [String: String] = [:]
+  ) async throws -> Data {
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+
+    // 添加自定义请求头
+    for (key, value) in headers {
+      request.setValue(value, forHTTPHeaderField: key)
+    }
+
+    let (data, response) = try await session.data(for: request)
+    try validateResponse(response: response, data: data)
+
+    return data
+  }
+
   // MARK: - Private Methods
 
   /// 执行网络请求并解码响应
