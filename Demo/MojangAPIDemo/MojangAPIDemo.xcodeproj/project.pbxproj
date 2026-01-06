@@ -101,7 +101,6 @@
 			mainGroup = 03AD199C2EFDFB1700D4ED1B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				03AD19B32EFDFB5000D4ED1B /* XCLocalSwiftPackageReference "../../../MojangAPI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 03AD19A62EFDFB1700D4ED1B /* Products */;
@@ -332,13 +331,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		03AD19B32EFDFB5000D4ED1B /* XCLocalSwiftPackageReference "../../../MojangAPI" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../../MojangAPI;
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		03AD19B42EFDFB5000D4ED1B /* MojangAPI */ = {
