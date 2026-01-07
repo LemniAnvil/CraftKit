@@ -2,25 +2,32 @@
 //  MojangAPIDemoApp.swift
 //  MojangAPIDemo
 //
-//  Created by Iris on 2025-12-26.
-//
 
 import SwiftUI
 
 @main
 struct MojangAPIDemoApp: App {
+  @State private var mojangPath = NavigationPath()
+  @State private var curseForgePath = NavigationPath()
+
   var body: some Scene {
     WindowGroup {
       TabView {
-        ContentView()
-          .tabItem {
-            Label("玩家档案", systemImage: "person.fill")
-          }
+        NavigationStack(path: $mojangPath) {
+          MojangAPITestsView()
+            .navigationTitle("Mojang API Demo")
+        }
+        .tabItem {
+          Label("Mojang", systemImage: "gamecontroller.fill")
+        }
 
-        VersionDetailsView()
-          .tabItem {
-            Label("版本详情", systemImage: "cube.box.fill")
-          }
+        NavigationStack(path: $curseForgePath) {
+          CurseForgeAPITestsView()
+            .navigationTitle("CurseForge API Demo")
+        }
+        .tabItem {
+          Label("CurseForge", systemImage: "square.stack.3d.up.fill")
+        }
       }
     }
   }

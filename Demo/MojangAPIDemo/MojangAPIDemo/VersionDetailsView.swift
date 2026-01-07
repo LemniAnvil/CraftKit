@@ -20,331 +20,263 @@ struct VersionDetailsView: View {
   private let osOptions = ["osx", "windows", "linux"]
 
   var body: some View {
-    NavigationStack {
-      Form {
-        // 搜索区域
-        Section("查询版本") {
-          // 版本选择器
-          if !availableVersions.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-              HStack {
-                Text("从列表选择:")
-                  .font(.subheadline)
-                Spacer()
-                Picker("筛选类型", selection: $filterType) {
-                  Text("全部").tag(nil as VersionType?)
-                  Text("正式版").tag(VersionType.release as VersionType?)
-                  Text("快照版").tag(VersionType.snapshot as VersionType?)
-                  Text("旧测试版").tag(VersionType.oldBeta as VersionType?)
-                  Text("旧内测版").tag(VersionType.oldAlpha as VersionType?)
-                }
-                .pickerStyle(.menu)
-              }
+    ScrollView {
+      VStack(spacing: 24) {
+        queryPanel
 
-              Picker("选择版本", selection: $selectedVersionFromPicker) {
-                Text("请选择...").tag(nil as VersionInfo?)
-                ForEach(filteredVersions, id: \.id) { version in
-                  Text("\(version.id) (\(version.type.rawValue))")
-                    .tag(version as VersionInfo?)
-                }
-              }
-              .pickerStyle(.menu)
-              .onChange(of: selectedVersionFromPicker) { _, newValue in
-                if let version = newValue {
-                  versionId = version.id
-                }
-              }
-            }
-
-            Divider()
-          }
-
-          // 手动输入
-          TextField("版本 ID (例如: 1.21.4)", text: $versionId)
-            .autocorrectionDisabled()
-
-          Button(action: search) {
-            if isLoading {
+        if isLoading {
+          DataCard {
+            HStack {
               ProgressView()
-                .frame(maxWidth: .infinity)
-            } else {
-              Text("查询")
-                .frame(maxWidth: .infinity)
+              Text("正在查询版本详情…")
             }
-          }
-          .disabled(versionId.isEmpty || isLoading)
-
-          HStack {
-            Button("查询最新正式版") {
-              Task {
-                await searchLatestRelease()
-              }
-            }
-            .disabled(isLoading)
-
-            Button("查询最新快照") {
-              Task {
-                await searchLatestSnapshot()
-              }
-            }
-            .disabled(isLoading)
+            .frame(maxWidth: .infinity)
           }
         }
 
-        // 错误信息
         if let error = errorMessage {
-          Section {
-            Text(error)
+          DataCard {
+            Label(error, systemImage: "exclamationmark.triangle")
               .foregroundStyle(.red)
           }
         }
 
-        // 版本基本信息
         if let details = versionDetails {
-          // 版本概览卡片
-          Section {
-            VStack(alignment: .leading, spacing: 12) {
-              // 版本标题
-              HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                  Text(details.id)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                  HStack(spacing: 8) {
-                    Text(details.type.rawValue)
-                      .font(.caption)
-                      .padding(.horizontal, 8)
-                      .padding(.vertical, 4)
-                      .background(typeColor(for: details.type).opacity(0.2))
-                      .foregroundColor(typeColor(for: details.type))
-                      .cornerRadius(4)
-                    Text(details.releaseTime.formatted(date: .abbreviated, time: .omitted))
-                      .font(.caption)
-                      .foregroundStyle(.secondary)
-                  }
-                }
-                Spacer()
-              }
-
-              Divider()
-
-              // 关键信息
-              HStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 4) {
-                  Text("Java")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                  Text("\(details.javaVersion.majorVersion)")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                  Text("合规等级")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                  Text("\(details.complianceLevel)")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                  Text("总大小")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                  Text(details.formattedDownloadSize)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                }
-              }
-            }
-            .padding(.vertical, 8)
-          }
-
-          // 下载信息
-          Section("下载") {
-            // 客户端
-            HStack {
-              VStack(alignment: .leading, spacing: 4) {
-                Text("客户端")
-                  .font(.subheadline)
-                  .fontWeight(.medium)
-                Text(
-                  ByteCountFormatter.string(
-                    fromByteCount: Int64(details.downloads.client.size),
-                    countStyle: .file
-                  )
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-              }
-              Spacer()
-              Button(action: {}) {
-                Image(systemName: "arrow.down.circle")
-                  .font(.title2)
-              }
-              .buttonStyle(.plain)
-            }
-
-            // 服务端
-            if let server = details.downloads.server {
-              HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                  Text("服务端")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                  Text(
-                    ByteCountFormatter.string(
-                      fromByteCount: Int64(server.size),
-                      countStyle: .file
-                    )
-                  )
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-                }
-                Spacer()
-                Button(action: {}) {
-                  Image(systemName: "arrow.down.circle")
-                    .font(.title2)
-                }
-                .buttonStyle(.plain)
-              }
-            }
-          }
-
-          // 资源与依赖
-          Section("资源与依赖") {
-            // 资源索引
-            VStack(alignment: .leading, spacing: 8) {
-              HStack {
-                Text("资源索引")
-                  .font(.subheadline)
-                  .fontWeight(.medium)
-                Spacer()
-                Text(details.assetIndex.id)
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-              }
-
-              HStack {
-                Text("资源大小")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-                Spacer()
-                Text(
-                  ByteCountFormatter.string(
-                    fromByteCount: Int64(details.assetIndex.totalSize),
-                    countStyle: .file
-                  )
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-              }
-            }
-
-            Divider()
-
-            // 依赖库
-            VStack(alignment: .leading, spacing: 8) {
-              Picker("操作系统", selection: $selectedOS) {
-                Text("macOS").tag("osx")
-                Text("Windows").tag("windows")
-                Text("Linux").tag("linux")
-              }
-              .pickerStyle(.segmented)
-
-              let filteredLibraries = details.libraries(for: selectedOS)
-              HStack {
-                Text("依赖库")
-                  .font(.subheadline)
-                  .fontWeight(.medium)
-                Spacer()
-                Text("\(filteredLibraries.count) / \(details.libraries.count)")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-              }
-
-              NavigationLink {
-                LibrariesListView(libraries: filteredLibraries)
-              } label: {
-                HStack {
-                  Text("查看库列表")
-                    .font(.subheadline)
-                  Spacer()
-                  Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                }
-              }
-            }
-          }
-
-          // 启动参数
-          Section("启动参数") {
-            NavigationLink {
-              ArgumentsListView(
-                title: "游戏参数",
-                arguments: details.gameArgumentStrings
-              )
-            } label: {
-              HStack {
-                Text("游戏参数")
-                  .font(.subheadline)
-                Spacer()
-                Text("\(details.gameArgumentStrings.count)")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-                Image(systemName: "chevron.right")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-              }
-            }
-
-            NavigationLink {
-              ArgumentsListView(
-                title: "JVM 参数",
-                arguments: details.jvmArgumentStrings
-              )
-            } label: {
-              HStack {
-                Text("JVM 参数")
-                  .font(.subheadline)
-                Spacer()
-                Text("\(details.jvmArgumentStrings.count)")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-                Image(systemName: "chevron.right")
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-              }
-            }
-          }
-
-          // 技术详情（折叠）
-          Section("技术详情") {
-            DisclosureGroup {
-              VStack(alignment: .leading, spacing: 8) {
-                InfoRow(label: "主类", value: details.mainClass)
-                InfoRow(label: "最低启动器版本", value: "\(details.minimumLauncherVersion)")
-                InfoRow(label: "Java 组件", value: details.javaVersion.component)
-                InfoRow(
-                  label: "客户端 SHA1", value: String(details.downloads.client.sha1.prefix(16)) + "..."
-                )
-                if let server = details.downloads.server {
-                  InfoRow(label: "服务端 SHA1", value: String(server.sha1.prefix(16)) + "...")
-                }
-              }
-              .font(.caption)
-            } label: {
-              Text("显示更多技术信息")
-                .font(.subheadline)
-            }
-          }
+          summarySection(details)
+          downloadsSection(details)
+          resourcesSection(details)
+          argumentsSection(details)
+          technicalSection(details)
         }
       }
-      .navigationTitle("版本详情")
-      .task {
-        await loadVersionList()
+      .padding()
+    }
+    .background(Color(nsColor: .textBackgroundColor))
+    .navigationTitle("版本详情")
+    .task {
+      await loadVersionList()
+    }
+  }
+
+  private var queryPanel: some View {
+    DataCard {
+      VStack(alignment: .leading, spacing: 12) {
+        Text("查询版本")
+          .font(.headline)
+
+        if !availableVersions.isEmpty {
+          HStack {
+            Text("按类型筛选")
+              .font(.caption)
+              .foregroundStyle(.secondary)
+            Spacer()
+            Picker("筛选类型", selection: $filterType) {
+              Text("全部").tag(nil as VersionType?)
+              Text("正式版").tag(VersionType.release as VersionType?)
+              Text("快照版").tag(VersionType.snapshot as VersionType?)
+              Text("旧测试版").tag(VersionType.oldBeta as VersionType?)
+              Text("旧内测版").tag(VersionType.oldAlpha as VersionType?)
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
+          }
+
+          Picker("选择版本", selection: $selectedVersionFromPicker) {
+            Text("请选择…").tag(nil as VersionInfo?)
+            ForEach(filteredVersions, id: \.id) { version in
+              Text("\(version.id) (\(version.type.rawValue))")
+                .tag(version as VersionInfo?)
+            }
+          }
+          .onChange(of: selectedVersionFromPicker) { _, newValue in
+            if let version = newValue {
+              versionId = version.id
+            }
+          }
+
+          Divider()
+        }
+
+        TextField("版本 ID (例如: 1.21.4)", text: $versionId)
+          .textFieldStyle(.roundedBorder)
+          .autocorrectionDisabled()
+
+        Button(action: search) {
+          Label(isLoading ? "查询中…" : "查询版本信息", systemImage: "magnifyingglass.circle")
+            .frame(maxWidth: .infinity)
+        }
+        .disabled(versionId.isEmpty || isLoading)
+        .buttonStyle(.borderedProminent)
+
+        HStack {
+          Button("查询最新正式版") {
+            Task { await searchLatestRelease() }
+          }
+          .buttonStyle(.bordered)
+          .disabled(isLoading)
+
+          Button("查询最新快照") {
+            Task { await searchLatestSnapshot() }
+          }
+          .buttonStyle(.bordered)
+          .disabled(isLoading)
+        }
+      }
+    }
+  }
+
+  private func summarySection(_ details: VersionDetails) -> some View {
+    DataCard {
+      VStack(alignment: .leading, spacing: 16) {
+        HStack {
+          VStack(alignment: .leading, spacing: 8) {
+            Text(details.id)
+              .font(.title2)
+              .fontWeight(.bold)
+            HStack(spacing: 10) {
+              Text(details.type.rawValue)
+                .font(.caption)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(typeColor(for: details.type).opacity(0.2))
+                .foregroundColor(typeColor(for: details.type))
+                .clipShape(Capsule())
+              Text(details.releaseTime.formatted(date: .abbreviated, time: .omitted))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+          }
+          Spacer()
+        }
+
+        Divider()
+
+        HStack(spacing: 24) {
+          MetricTile(title: "Java", value: "\(details.javaVersion.majorVersion)")
+          MetricTile(title: "合规等级", value: "\(details.complianceLevel)")
+          MetricTile(title: "总下载大小", value: details.formattedDownloadSize)
+        }
+      }
+    }
+  }
+
+  private func downloadsSection(_ details: VersionDetails) -> some View {
+    DataCard {
+      VStack(alignment: .leading, spacing: 12) {
+        Text("下载")
+          .font(.headline)
+
+        DownloadRow(
+          title: "客户端",
+          size: details.downloads.client.size,
+          sha1: details.downloads.client.sha1
+        )
+
+        if let server = details.downloads.server {
+          Divider()
+          DownloadRow(title: "服务端", size: server.size, sha1: server.sha1)
+        }
+
+        if let mappings = details.downloads.clientMappings {
+          Divider()
+          DownloadRow(title: "客户端映射", size: mappings.size, sha1: mappings.sha1)
+        }
+        if let mappings = details.downloads.serverMappings {
+          Divider()
+          DownloadRow(title: "服务端映射", size: mappings.size, sha1: mappings.sha1)
+        }
+      }
+    }
+  }
+
+  private func resourcesSection(_ details: VersionDetails) -> some View {
+    DataCard {
+      VStack(alignment: .leading, spacing: 12) {
+        Text("资源与依赖")
+          .font(.headline)
+
+        KeyValueRow(title: "资源索引", value: details.assetIndex.id, monospaced: true)
+        KeyValueRow(
+          title: "资源总大小",
+          value: ByteCountFormatter.string(
+            fromByteCount: Int64(details.assetIndex.totalSize), countStyle: .file)
+        )
+
+        Divider()
+
+        Picker("操作系统", selection: $selectedOS) {
+          Text("macOS").tag("osx")
+          Text("Windows").tag("windows")
+          Text("Linux").tag("linux")
+        }
+        .pickerStyle(.segmented)
+
+        let filteredLibraries = details.libraries(for: selectedOS)
+        HStack {
+          Text("依赖库")
+            .font(.subheadline)
+          Spacer()
+          Text("\(filteredLibraries.count) / \(details.libraries.count)")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+
+        NavigationLink {
+          LibrariesListView(libraries: filteredLibraries)
+        } label: {
+          HStack {
+            Text("查看库列表")
+            Spacer()
+            Image(systemName: "chevron.right")
+              .font(.caption)
+              .foregroundStyle(.secondary)
+          }
+          .font(.subheadline)
+        }
+      }
+    }
+  }
+
+  private func argumentsSection(_ details: VersionDetails) -> some View {
+    DataCard {
+      VStack(alignment: .leading, spacing: 12) {
+        Text("启动参数")
+          .font(.headline)
+
+        NavigationLink {
+          ArgumentsListView(title: "游戏参数", arguments: details.gameArgumentStrings)
+        } label: {
+          ArgumentRow(title: "游戏参数", count: details.gameArgumentStrings.count)
+        }
+
+        NavigationLink {
+          ArgumentsListView(title: "JVM 参数", arguments: details.jvmArgumentStrings)
+        } label: {
+          ArgumentRow(title: "JVM 参数", count: details.jvmArgumentStrings.count)
+        }
+      }
+    }
+  }
+
+  private func technicalSection(_ details: VersionDetails) -> some View {
+    DataCard {
+      DisclosureGroup {
+        VStack(alignment: .leading, spacing: 8) {
+          InfoRow(label: "主类", value: details.mainClass)
+          InfoRow(label: "最低启动器版本", value: "\(details.minimumLauncherVersion)")
+          InfoRow(label: "Java 组件", value: details.javaVersion.component)
+          InfoRow(
+            label: "客户端 SHA1",
+            value: String(details.downloads.client.sha1.prefix(16)) + "…"
+          )
+          if let server = details.downloads.server {
+            InfoRow(label: "服务端 SHA1", value: String(server.sha1.prefix(16)) + "…")
+          }
+        }
+        .font(.caption)
+      } label: {
+        Text("技术详情")
+          .font(.headline)
       }
     }
   }
@@ -426,6 +358,65 @@ struct VersionDetailsView: View {
     case .oldAlpha:
       return .purple
     }
+  }
+}
+
+private struct MetricTile: View {
+  var title: String
+  var value: String
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 4) {
+      Text(title)
+        .font(.caption)
+        .foregroundStyle(.secondary)
+      Text(value)
+        .font(.title3)
+        .fontWeight(.semibold)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+}
+
+private struct DownloadRow: View {
+  var title: String
+  var size: Int
+  var sha1: String
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 4) {
+      HStack {
+        Text(title)
+          .font(.subheadline)
+        Spacer()
+        Text(ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .file))
+          .font(.caption)
+          .foregroundStyle(.secondary)
+      }
+      Text("SHA1: \(sha1)")
+        .font(.caption2)
+        .foregroundStyle(.secondary)
+        .textSelection(.enabled)
+    }
+  }
+}
+
+private struct ArgumentRow: View {
+  var title: String
+  var count: Int
+
+  var body: some View {
+    HStack {
+      Text(title)
+      Spacer()
+      Text("\(count)")
+        .font(.caption)
+        .foregroundStyle(.secondary)
+      Image(systemName: "chevron.right")
+        .font(.caption)
+        .foregroundStyle(.secondary)
+    }
+    .font(.subheadline)
   }
 }
 

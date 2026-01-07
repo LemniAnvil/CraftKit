@@ -3,38 +3,50 @@
 //  MojangAPIDemo
 //
 
+import AppKit
 import MojangAPI
 import SwiftUI
 import UniformTypeIdentifiers
-import AppKit
 
-struct ContentView: View {
+struct MojangAPITestsView: View {
   var body: some View {
-    NavigationStack {
-      List {
-        Section("Mojang API") {
-          NavigationLink(destination: PlayerSearchView()) {
-            Label("玩家搜索", systemImage: "person.circle")
-          }
-
-          NavigationLink(destination: VersionDetailsView()) {
-            Label("版本信息", systemImage: "cube")
-          }
-
-          NavigationLink(destination: SkinUploadView()) {
-            Label("皮肤上传测试", systemImage: "square.and.arrow.up")
-          }
+    List {
+      Section("Mojang API") {
+        NavigationLink(destination: PlayerSearchView()) {
+          Label("玩家搜索", systemImage: "person.circle")
         }
 
-        Section("CurseForge API") {
-          NavigationLink(destination: ModpacksView()) {
-            Label("整合包浏览", systemImage: "square.stack.3d.up")
-          }
+        NavigationLink(destination: VersionDetailsView()) {
+          Label("版本信息", systemImage: "cube")
+        }
+
+        NavigationLink(destination: SkinUploadView()) {
+          Label("皮肤上传测试", systemImage: "square.and.arrow.up")
         }
       }
-      .navigationTitle("Mojang API Demo")
-      .listStyle(.sidebar)
+      Section("高级测试") {
+        NavigationLink(destination: VersionManifestView()) {
+          Label("版本清单对比", systemImage: "list.bullet.rectangle")
+        }
+
+        NavigationLink(destination: BatchUUIDLookupView()) {
+          Label("批量 UUID 查询", systemImage: "number")
+        }
+
+        NavigationLink(destination: PlayerUUIDLookupView()) {
+          Label("轻量 UUID 查询", systemImage: "person.text.rectangle")
+        }
+
+        NavigationLink(destination: ProfileByUUIDView()) {
+          Label("UUID 档案查看", systemImage: "person.badge.shield.checkmark")
+        }
+
+        NavigationLink(destination: BlockedServersView()) {
+          Label("封禁服务器列表", systemImage: "exclamationmark.triangle")
+        }
+      }
     }
+    .listStyle(.sidebar)
   }
 }
 
@@ -269,9 +281,11 @@ struct SkinUploadView: View {
       }
 
       Section("使用说明") {
-        Text("1. 在浏览器中获取 Authorization Bearer Token；2. 选择 64x32 或 64x64 的 PNG 皮肤文件（≤ 24 KB）；3. 点击上传即可在几分钟内在游戏中看到效果。")
-          .font(.caption)
-          .foregroundStyle(.secondary)
+        Text(
+          "1. 在浏览器中获取 Authorization Bearer Token；2. 选择 64x32 或 64x64 的 PNG 皮肤文件（≤ 24 KB）；3. 点击上传即可在几分钟内在游戏中看到效果。"
+        )
+        .font(.caption)
+        .foregroundStyle(.secondary)
       }
     }
     .navigationTitle("皮肤上传测试")
@@ -417,6 +431,496 @@ struct SkinUploadView: View {
   }
 }
 
-#Preview {
-  ContentView()
+struct CurseForgeAPITestsView: View {
+  var body: some View {
+    List {
+      Section("CurseForge API") {
+        NavigationLink(destination: ModpacksView()) {
+          Label("整合包浏览", systemImage: "square.stack.3d.up")
+        }
+      }
+    }
+    .listStyle(.sidebar)
+  }
+}
+
+struct VersionManifestView: View {
+  @State private var useV2 = true
+  @State private var manifest: VersionManifest?
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+  @State private var versionLimit = 12
+
+  private let client = MinecraftAPIClient()
+
+  private var recentVersions: [VersionInfo] {
+    guard let manifest else { return [] }
+    return Array(manifest.versions.prefix(versionLimit))
+  }
+
+  var body: some View {
+    Form {
+      Section("请求配置") {
+        Toggle("使用 version_manifest_v2.json", isOn: $useV2)
+
+        Stepper("展示最近 \(versionLimit) 个版本", value: $versionLimit, in: 5...30, step: 5)
+
+        Button(action: loadManifest) {
+          Label(isLoading ? "请求中..." : "获取版本清单", systemImage: "arrow.clockwise.circle")
+            .frame(maxWidth: .infinity)
+        }
+        .disabled(isLoading)
+      }
+
+      if isLoading {
+        Section {
+          ProgressView("请求中…")
+            .frame(maxWidth: .infinity)
+        }
+      }
+
+      if let error = errorMessage {
+        Section {
+          Text(error)
+            .foregroundStyle(.red)
+        }
+      }
+
+      if let manifest = manifest {
+        Section("最新版本") {
+          DataCard {
+            KeyValueRow(title: "最新正式版", value: manifest.latest.release)
+            KeyValueRow(title: "最新快照", value: manifest.latest.snapshot)
+            KeyValueRow(
+              title: "具备 v2 元数据",
+              value: "\(manifest.versions.filter { $0.isFromV2API }.count)",
+              monospaced: true
+            )
+          }
+        }
+
+        Section("最近版本（\(recentVersions.count)）") {
+          ForEach(recentVersions) { version in
+            DataCard {
+              HStack {
+                Text(version.id)
+                  .font(.headline)
+                Spacer()
+                Text(version.type.rawValue)
+                  .font(.caption)
+                  .padding(.horizontal, 6)
+                  .padding(.vertical, 3)
+                  .background(.thinMaterial)
+                  .clipShape(Capsule())
+              }
+
+              Text(version.releaseTime.formatted(date: .abbreviated, time: .omitted))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+              if version.isFromV2API {
+                Divider()
+                KeyValueRow(title: "SHA1", value: version.sha1 ?? "N/A", monospaced: true)
+                KeyValueRow(
+                  title: "Compliance",
+                  value: version.complianceLevel.map(String.init) ?? "-",
+                  monospaced: true
+                )
+              } else {
+                Text("来自 v1 API，无 SHA1/Compliance")
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
+            }
+          }
+        }
+      }
+    }
+    .navigationTitle("版本清单测试")
+  }
+
+  private func loadManifest() {
+    isLoading = true
+    errorMessage = nil
+
+    Task {
+      do {
+        manifest = try await client.fetchVersionManifest(useV2: useV2)
+      } catch {
+        errorMessage = error.localizedDescription
+        manifest = nil
+      }
+      isLoading = false
+    }
+  }
+}
+
+struct BatchUUIDLookupView: View {
+  @State private var inputNames = "Notch\njeb_\nDinnerbone"
+  @State private var results: [String: String] = [:]
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+
+  private let client = MinecraftAPIClient()
+
+  private var parsedNames: [String] {
+    inputNames
+      .split(whereSeparator: { $0 == "\n" || $0 == "," })
+      .map { $0.trimmingCharacters(in: .whitespaces) }
+      .filter { !$0.isEmpty }
+  }
+
+  var body: some View {
+    Form {
+      Section("输入玩家名称（换行或逗号分隔）") {
+        TextEditor(text: $inputNames)
+          .frame(minHeight: 140)
+          .autocorrectionDisabled()
+          .font(.system(.body, design: .monospaced))
+
+        LabeledContent("有效名称", value: "\(parsedNames.count)")
+
+        Button(action: lookup) {
+          Label("批量查询", systemImage: "arrow.triangle.2.circlepath")
+            .frame(maxWidth: .infinity)
+        }
+        .disabled(parsedNames.isEmpty || isLoading)
+      }
+
+      if isLoading {
+        Section {
+          ProgressView("请求中…").frame(maxWidth: .infinity)
+        }
+      }
+
+      if let error = errorMessage {
+        Section {
+          Text(error)
+            .foregroundStyle(.red)
+        }
+      }
+
+      if !results.isEmpty {
+        Section("结果（\(results.count)）") {
+          ForEach(
+            results.sorted(by: { $0.key.lowercased() < $1.key.lowercased() }),
+            id: \.key
+          ) { name, uuid in
+            DataCard {
+              Text(name)
+                .font(.headline)
+              Text(uuid)
+                .font(.system(.footnote, design: .monospaced))
+                .textSelection(.enabled)
+            }
+          }
+        }
+      }
+    }
+    .navigationTitle("批量 UUID 查询")
+  }
+
+  private func lookup() {
+    isLoading = true
+    errorMessage = nil
+    results = [:]
+
+    let names = parsedNames
+    Task {
+      do {
+        results = try await client.fetchUUIDs(names: names)
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+      isLoading = false
+    }
+  }
+}
+
+struct PlayerUUIDLookupView: View {
+  @State private var playerName = "Notch"
+  @State private var result: PlayerUUID?
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+
+  private let client = MinecraftAPIClient()
+
+  var body: some View {
+    Form {
+      Section("玩家名称") {
+        TextField("玩家名称", text: $playerName)
+          .autocorrectionDisabled()
+
+        Button("查询 UUID", action: lookup)
+          .frame(maxWidth: .infinity)
+          .disabled(playerName.isEmpty || isLoading)
+      }
+
+      if isLoading {
+        Section {
+          ProgressView("请求中…").frame(maxWidth: .infinity)
+        }
+      }
+
+      if let error = errorMessage {
+        Section {
+          Text(error)
+            .foregroundStyle(.red)
+        }
+      }
+
+      if let result = result {
+        Section("结果") {
+          DataCard {
+            KeyValueRow(title: "玩家", value: result.name)
+            KeyValueRow(title: "UUID (32)", value: result.id, monospaced: true)
+            KeyValueRow(title: "UUID (带横杠)", value: result.formattedUUID, monospaced: true)
+          }
+        }
+      }
+    }
+    .navigationTitle("轻量 UUID 查询")
+  }
+
+  private func lookup() {
+    isLoading = true
+    errorMessage = nil
+    result = nil
+
+    Task {
+      do {
+        result = try await client.fetchPlayerUUID(byName: playerName)
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+      isLoading = false
+    }
+  }
+}
+
+struct ProfileByUUIDView: View {
+  @State private var uuid = "069a79f4-44e9-4726-a5be-fca90e38aaf5"
+  @State private var unsigned = false
+  @State private var profile: PlayerProfile?
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+
+  private let client = MinecraftAPIClient()
+
+  var body: some View {
+    Form {
+      Section("输入 UUID") {
+        TextField("069a79f4-...", text: $uuid)
+          .autocorrectionDisabled()
+
+        Toggle("请求未签名档案 (unsigned)", isOn: $unsigned)
+
+        Button("查询档案", action: lookup)
+          .frame(maxWidth: .infinity)
+          .disabled(uuid.trimmingCharacters(in: .whitespaces).isEmpty || isLoading)
+      }
+
+      if isLoading {
+        Section {
+          ProgressView("请求中…").frame(maxWidth: .infinity)
+        }
+      }
+
+      if let error = errorMessage {
+        Section {
+          Text(error)
+            .foregroundStyle(.red)
+        }
+      }
+
+      if let profile = profile {
+        Section("基本信息") {
+          DataCard {
+            KeyValueRow(title: "玩家名", value: profile.name)
+            KeyValueRow(title: "UUID", value: profile.id, monospaced: true)
+            KeyValueRow(title: "有自定义皮肤", value: profile.hasCustomSkin ? "是" : "否")
+            KeyValueRow(title: "有披风", value: profile.hasCape ? "是" : "否")
+          }
+        }
+
+        if let actions = profile.profileActions, !actions.isEmpty {
+          Section("profileActions") {
+            DataCard {
+              VStack(alignment: .leading, spacing: 4) {
+                ForEach(actions, id: \.self) { action in
+                  Text(action)
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                }
+              }
+            }
+          }
+        }
+
+        if let textures = try? profile.getTexturesPayload() {
+          Section("纹理") {
+            DataCard {
+              if let skin = textures.textures.SKIN {
+                KeyValueRow(
+                  title: "皮肤 URL",
+                  value: skin.url.absoluteString,
+                  monospaced: true
+                )
+              }
+              if let cape = textures.textures.CAPE {
+                KeyValueRow(
+                  title: "披风 URL",
+                  value: cape.url.absoluteString,
+                  monospaced: true
+                )
+              }
+            }
+          }
+        }
+      }
+    }
+    .navigationTitle("UUID 档案查看")
+  }
+
+  private func lookup() {
+    isLoading = true
+    errorMessage = nil
+    profile = nil
+
+    Task {
+      do {
+        profile = try await client.fetchPlayerProfile(byUUID: uuid, unsigned: unsigned)
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+      isLoading = false
+    }
+  }
+}
+
+struct BlockedServersView: View {
+  @State private var blockedServers: [String] = []
+  @State private var searchText = ""
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+
+  private let client = MinecraftAPIClient()
+
+  private var filteredServers: [String] {
+    guard !searchText.isEmpty else { return blockedServers }
+    return blockedServers.filter { $0.localizedCaseInsensitiveContains(searchText) }
+  }
+
+  var body: some View {
+    List {
+      Section("操作") {
+        Button(action: fetchBlockedServers) {
+          Label(isLoading ? "同步中..." : "刷新列表", systemImage: "arrow.clockwise.circle")
+            .frame(maxWidth: .infinity)
+        }
+        .disabled(isLoading)
+
+        TextField("搜索哈希", text: $searchText)
+          .autocorrectionDisabled()
+      }
+
+      if isLoading {
+        Section {
+          ProgressView("同步中…")
+            .frame(maxWidth: .infinity)
+        }
+      }
+
+      if let error = errorMessage {
+        Section {
+          Text(error)
+            .foregroundStyle(.red)
+        }
+      }
+
+      if !blockedServers.isEmpty {
+        Section("哈希（总 \(blockedServers.count) 条，当前 \(filteredServers.count) 条）") {
+          ForEach(filteredServers, id: \.self) { hash in
+            DataCard {
+              Text(hash)
+                .font(.system(.body, design: .monospaced))
+                .textSelection(.enabled)
+            }
+          }
+        }
+      }
+    }
+    .navigationTitle("封禁服务器列表")
+  }
+
+  private func fetchBlockedServers() {
+    isLoading = true
+    errorMessage = nil
+
+    Task {
+      do {
+        blockedServers = try await client.fetchBlockedServers()
+      } catch {
+        errorMessage = error.localizedDescription
+        blockedServers = []
+      }
+      isLoading = false
+    }
+  }
+}
+
+#Preview("Mojang API Tests") {
+  NavigationStack {
+    MojangAPITestsView()
+      .navigationTitle("Mojang API Demo")
+  }
+}
+
+#Preview("CurseForge API Tests") {
+  NavigationStack {
+    CurseForgeAPITestsView()
+      .navigationTitle("CurseForge API Demo")
+  }
+}
+
+struct DataCard<Content: View>: View {
+  @ViewBuilder var content: Content
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      content
+    }
+    .padding()
+    .background(.ultraThinMaterial)
+    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+  }
+}
+
+struct KeyValueRow: View {
+  var title: String
+  var value: String
+  var monospaced = false
+
+  var body: some View {
+    HStack(alignment: .firstTextBaseline) {
+      Text(title)
+        .font(.caption)
+        .foregroundStyle(.secondary)
+      Spacer()
+      Text(value)
+        .font(monospaced ? .system(.body, design: .monospaced) : .body)
+        .textSelection(.enabled)
+    }
+  }
+}
+
+#Preview("Mojang API Tests") {
+  MojangAPITestsView()
+}
+
+#Preview("CurseForge API Tests") {
+  CurseForgeAPITestsView()
 }
