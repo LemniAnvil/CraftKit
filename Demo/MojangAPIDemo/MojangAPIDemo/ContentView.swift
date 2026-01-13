@@ -20,6 +20,10 @@ struct MojangAPITestsView: View {
           Label("版本信息", systemImage: "cube")
         }
 
+        NavigationLink(destination: AccountProfileView()) {
+          Label("账户档案", systemImage: "person.text.rectangle")
+        }
+
         NavigationLink(destination: SkinUploadView()) {
           Label("皮肤上传测试", systemImage: "square.and.arrow.up")
         }
