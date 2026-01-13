@@ -72,6 +72,26 @@ let skinData = try await client.downloadSkin(byName: "Notch")
 // 使用 skinData 显示图片
 ```
 
+### 认证皮肤管理
+
+```swift
+let auth = MinecraftAuthenticatedClient(bearerToken: "Bearer …")
+
+// 获取账户档案（包含所有皮肤和披风）
+let profile = try await auth.getProfile()
+print("当前皮肤: \(profile.activeSkin?.variant.rawValue ?? "默认")")
+
+// 上传新皮肤
+let pngData = try Data(contentsOf: URL(fileURLWithPath: "skin.png"))
+try await auth.uploadSkin(imageData: pngData, variant: .classic)
+
+// 更改皮肤模型类型（无需重新上传）
+try await auth.changeSkinVariant(.slim)
+
+// 复制其他玩家的皮肤
+try await auth.copySkin(from: "Notch")
+```
+
 ## API 文档
 
 完整的 API 参考文档：

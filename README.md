@@ -61,12 +61,24 @@ let skinData = try await client.downloadSkin(byUUID: profile.id)
 // render skinData in UIImage/NSImage
 ```
 
-### Authenticated skin upload
+### Authenticated skin management
 
 ```swift
 let auth = MinecraftAuthenticatedClient(bearerToken: "Bearer …")
+
+// Get account profile with all skins and capes
+let profile = try await auth.getProfile()
+print("Active skin: \(profile.activeSkin?.variant.rawValue ?? "default")")
+
+// Upload a new skin
 let pngData = try Data(contentsOf: URL(fileURLWithPath: "skin.png"))
 try await auth.uploadSkin(imageData: pngData, variant: .classic)
+
+// Change skin variant without re-uploading
+try await auth.changeSkinVariant(.slim)
+
+// Copy another player's skin
+try await auth.copySkin(from: "Notch")
 ```
 
 ## API Documentation

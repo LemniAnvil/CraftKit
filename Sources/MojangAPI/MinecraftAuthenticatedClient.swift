@@ -46,6 +46,38 @@ public class MinecraftAuthenticatedClient {
     )
   }
 
+  // MARK: - Profile Management
+
+  /// 获取当前账户的档案信息
+  ///
+  /// 返回包含所有皮肤和披风的完整账户档案。
+  ///
+  /// - Returns: 账户档案信息，包含所有皮肤和披风列表
+  ///
+  /// - Throws:
+  ///   - `MinecraftAPIError.invalidURL` 如果 URL 无效
+  ///   - `MinecraftAPIError.invalidBearerToken` 如果认证失败
+  ///   - `MinecraftAPIError.networkError` 如果网络请求失败
+  ///   - `MinecraftAPIError.decodingError` 如果响应解析失败
+  public func getProfile() async throws -> AccountProfile {
+    let endpoint = "\(servicesBaseURL)/minecraft/profile"
+    guard let requestURL = URL(string: endpoint) else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    do {
+      let profile: AccountProfile = try await baseClient.get(
+        url: requestURL,
+        headers: authHeaders()
+      )
+      return profile
+    } catch let error as NetworkError {
+      throw mapNetworkError(error)
+    } catch {
+      throw MinecraftAPIError.networkError(error)
+    }
+  }
+
   // MARK: - Skin Management
 
   /// 通过 URL 更改皮肤
@@ -230,6 +262,37 @@ public class MinecraftAuthenticatedClient {
     let variant: SkinVariant = textures.textures.SKIN?.metadata?.model == "slim" ? .slim : .classic
 
     // 4. 使用 URL 设置皮肤
+    try await changeSkin(url: skinURL, variant: variant)
+  }
+
+  /// 更改当前皮肤的模型类型
+  ///
+  /// 保持当前皮肤图片不变，仅更改模型类型（classic 或 slim）。
+  /// 此方法会获取当前激活的皮肤 URL，然后使用新的 variant 重新设置。
+  ///
+  /// - Parameter variant: 新的皮肤模型类型
+  ///
+  /// - Throws:
+  ///   - `MinecraftAPIError.noSkinAvailable` 如果当前没有自定义皮肤
+  ///   - `MinecraftAPIError.invalidBearerToken` 如果认证失败
+  ///   - `MinecraftAPIError.networkError` 如果网络请求失败
+  ///
+  /// 注意：此操作需要当前账户已设置自定义皮肤。如果使用默认皮肤，会抛出错误。
+  public func changeSkinVariant(_ variant: SkinVariant) async throws {
+    // 1. 获取当前账户档案
+    let profile = try await getProfile()
+
+    // 2. 检查是否有激活的皮肤
+    guard let activeSkin = profile.activeSkin else {
+      throw MinecraftAPIError.noSkinAvailable
+    }
+
+    // 3. 获取当前皮肤的 URL
+    guard let skinURL = activeSkin.urlObject else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    // 4. 使用当前皮肤 URL 和新的 variant 重新设置皮肤
     try await changeSkin(url: skinURL, variant: variant)
   }
 
