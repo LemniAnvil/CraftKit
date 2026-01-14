@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03AD19B52EFDFB5000D4ED1B /* MojangAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 03AD19B42EFDFB5000D4ED1B /* MojangAPI */; };
+		03E6EF592F174B2600B971A6 /* CraftKit in Frameworks */ = {isa = PBXBuildFile; productRef = 03E6EF582F174B2600B971A6 /* CraftKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03AD19B52EFDFB5000D4ED1B /* MojangAPI in Frameworks */,
+				03E6EF592F174B2600B971A6 /* CraftKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +70,7 @@
 			);
 			name = MojangAPIDemo;
 			packageProductDependencies = (
-				03AD19B42EFDFB5000D4ED1B /* MojangAPI */,
+				03E6EF582F174B2600B971A6 /* CraftKit */,
 			);
 			productName = MojangAPIDemo;
 			productReference = 03AD19A52EFDFB1700D4ED1B /* MojangAPIDemo.app */;
@@ -333,9 +333,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		03AD19B42EFDFB5000D4ED1B /* MojangAPI */ = {
+		03E6EF582F174B2600B971A6 /* CraftKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MojangAPI;
+			productName = CraftKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,4 +1,4 @@
-# MojangAPI – Swift Minecraft API Client
+# CraftKit – Swift Minecraft API Client
 
 A modern, type-safe Swift package for Mojang's Minecraft services plus CurseForge search APIs. The package exposes async/await friendly networking, first-class models, and a demo app to showcase every major feature.
 
@@ -29,14 +29,14 @@ A modern, type-safe Swift package for Mojang's Minecraft services plus CurseForg
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/LemniAnvil/MojangAPI.git", from: "1.0.0")
+    .package(url: "https://github.com/LemniAnvil/CraftKit.git", branch: "main")
 ]
 ```
 
 ## Quick Start
 
 ```swift
-import MojangAPI
+import CraftKit
 
 let client = MinecraftAPIClient()
 

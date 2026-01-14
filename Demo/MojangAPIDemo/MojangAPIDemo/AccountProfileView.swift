@@ -6,7 +6,7 @@
 //
 
 import AppKit
-import MojangAPI
+import CraftKit
 import SwiftUI
 
 struct AccountProfileView: View {

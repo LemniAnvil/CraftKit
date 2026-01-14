@@ -20,7 +20,7 @@ Complete reference for CurseForge Minecraft modpack/mod API integration.
 ### Configuration
 
 ```swift
-import MojangAPI
+import CraftKit
 
 // Read API key from environment variable (recommended)
 let apiKey = ProcessInfo.processInfo.environment["CURSEFORGE_API_KEY"] ?? "YOUR_API_KEY"

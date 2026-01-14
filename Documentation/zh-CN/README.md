@@ -1,4 +1,4 @@
-# MojangAPI - Swift Minecraft API Client
+# CraftKit - Swift Minecraft API Client
 
 > Need the English version? See [README.md](../../README.md).
 
@@ -35,7 +35,7 @@
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/LemniAnvil/MojangAPI.git", from: "1.0.0")
+    .package(url: "https://github.com/LemniAnvil/CraftKit.git", branch: "main")
 ]
 ```
 
@@ -44,7 +44,7 @@ dependencies: [
 ### 获取版本信息
 
 ```swift
-import MojangAPI
+import CraftKit
 
 let client = MinecraftAPIClient()
 

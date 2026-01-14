@@ -3,7 +3,7 @@
 //  MojangAPIDemo
 //
 
-import MojangAPI
+import CraftKit
 import SwiftUI
 
 struct ModpackDetailView: View {

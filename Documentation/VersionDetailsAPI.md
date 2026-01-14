@@ -161,7 +161,7 @@ print("JVM arguments: \(jvmArgs.count)")
 ## Complete Example
 
 ```swift
-import MojangAPI
+import CraftKit
 
 let client = MinecraftAPIClient()
 

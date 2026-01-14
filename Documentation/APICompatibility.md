@@ -107,7 +107,7 @@ swift test --filter VersionManifestCompatibilityTests
 
 ### 基本使用
 ```swift
-import MojangAPI
+import CraftKit
 
 let client = MinecraftAPIClient()
 
