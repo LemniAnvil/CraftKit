@@ -1,6 +1,6 @@
 //
 //  VersionDetailsExample.swift
-//  MojangAPI
+//  CraftKit
 //
 //  Example demonstrating how to fetch and use version details
 //

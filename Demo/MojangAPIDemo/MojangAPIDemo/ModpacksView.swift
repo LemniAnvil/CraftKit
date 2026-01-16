@@ -1,6 +1,6 @@
 //
 //  ModpacksView.swift
-//  MojangAPIDemo
+//  CraftKitDemo
 //
 
 import CraftKit

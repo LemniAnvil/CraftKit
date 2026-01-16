@@ -1,6 +1,6 @@
 //
 //  CFServerAffiliation.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

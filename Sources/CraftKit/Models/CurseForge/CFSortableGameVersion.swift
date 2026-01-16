@@ -1,6 +1,6 @@
 //
 //  CFSortableGameVersion.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

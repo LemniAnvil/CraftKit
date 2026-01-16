@@ -1,6 +1,6 @@
 //
 //  CFLogo.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

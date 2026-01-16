@@ -1,6 +1,6 @@
 //
 //  Array+VersionInfo.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

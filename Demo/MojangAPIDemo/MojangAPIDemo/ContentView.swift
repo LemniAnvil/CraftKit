@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  MojangAPIDemo
+//  CraftKitDemo
 //
 
 import AppKit

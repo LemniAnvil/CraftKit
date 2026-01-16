@@ -1,6 +1,6 @@
 //
 //  Models.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

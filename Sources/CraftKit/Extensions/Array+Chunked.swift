@@ -1,6 +1,6 @@
 //
 //  Array+Chunked.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

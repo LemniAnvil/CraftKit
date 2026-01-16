@@ -1,6 +1,6 @@
 //
 //  SkinUploadExample.swift
-//  MojangAPI
+//  CraftKit
 //
 //  皮肤上传和管理的使用示例
 //

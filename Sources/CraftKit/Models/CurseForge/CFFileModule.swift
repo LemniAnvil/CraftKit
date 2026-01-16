@@ -1,6 +1,6 @@
 //
 //  CFFileModule.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

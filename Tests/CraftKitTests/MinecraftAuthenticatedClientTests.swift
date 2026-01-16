@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-@testable import MojangAPI
+@testable import CraftKit
 
 /// MinecraftAuthenticatedClient 单元测试
 ///

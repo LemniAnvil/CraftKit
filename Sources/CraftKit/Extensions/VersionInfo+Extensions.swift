@@ -1,6 +1,6 @@
 //
 //  VersionInfo+Extensions.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

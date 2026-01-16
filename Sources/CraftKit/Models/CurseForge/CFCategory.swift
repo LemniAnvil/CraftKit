@@ -1,6 +1,6 @@
 //
 //  CFCategory.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

@@ -1,6 +1,6 @@
 //
 //  CFSearchParameters.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

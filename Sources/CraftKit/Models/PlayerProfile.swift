@@ -1,6 +1,6 @@
 //
 //  PlayerProfile.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

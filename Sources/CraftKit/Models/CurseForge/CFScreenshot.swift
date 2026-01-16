@@ -1,6 +1,6 @@
 //
 //  CFScreenshot.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

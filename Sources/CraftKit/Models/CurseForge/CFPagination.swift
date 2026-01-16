@@ -1,6 +1,6 @@
 //
 //  CFPagination.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

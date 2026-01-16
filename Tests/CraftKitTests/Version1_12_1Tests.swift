@@ -1,11 +1,11 @@
 //
 //  Version1_12_1Tests.swift
-//  MojangAPITests
+//  CraftKitTests
 //
 
 import XCTest
 
-@testable import MojangAPI
+@testable import CraftKit
 
 final class Version1_12_1Tests: XCTestCase {
 

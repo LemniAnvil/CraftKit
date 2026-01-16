@@ -1,6 +1,6 @@
 //
 //  CFSearchRequestExample.swift
-//  MojangAPI
+//  CraftKit
 //
 //  CurseForge 搜索请求示例
 //

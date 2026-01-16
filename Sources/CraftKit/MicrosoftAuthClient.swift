@@ -1,6 +1,6 @@
 //
 //  MicrosoftAuthClient.swift
-//  MojangAPI
+//  CraftKit
 //
 //  Microsoft OAuth 2.0 认证客户端
 //  处理完整的 Microsoft → Xbox Live → XSTS → Minecraft 认证流程

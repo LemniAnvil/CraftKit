@@ -1,6 +1,6 @@
 //
 //  VersionDetailsView.swift
-//  MojangAPIDemo
+//  CraftKitDemo
 //
 
 import CraftKit

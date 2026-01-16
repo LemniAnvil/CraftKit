@@ -1,6 +1,6 @@
 //
 //  SkinVariantExample.swift
-//  MojangAPI
+//  CraftKit
 //
 //  演示如何使用皮肤变体更改功能
 //

@@ -140,7 +140,10 @@ Run it with:
 cd Demo/MojangAPIDemo
 open MojangAPIDemo.xcodeproj
 ```
-Or open `Demo/MojangAPIWorkspace.xcworkspace` to code the app and package side-by-side.
+Or open the workspace to code the app and package side-by-side:
+```bash
+open Demo/MojangAPIWorkspace.xcworkspace
+```
 
 ## Requirements
 

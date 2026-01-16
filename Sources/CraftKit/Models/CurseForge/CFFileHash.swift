@@ -1,6 +1,6 @@
 //
 //  CFFileHash.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

@@ -1,6 +1,6 @@
 //
-//  MojangAPIDemoApp.swift
-//  MojangAPIDemo
+//  CraftKitDemoApp.swift
+//  CraftKitDemo
 //
 
 import SwiftUI

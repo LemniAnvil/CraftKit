@@ -1,6 +1,6 @@
 //
 //  BaseAPIClient.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

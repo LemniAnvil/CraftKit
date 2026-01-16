@@ -123,6 +123,11 @@ cd Demo/MojangAPIDemo
 open MojangAPIDemo.xcodeproj
 ```
 
+或者打开工作区以便同时编辑应用和包：
+```bash
+open Demo/MojangAPIWorkspace.xcworkspace
+```
+
 ## 系统要求
 
 - iOS 15.0+ / macOS 12.0+

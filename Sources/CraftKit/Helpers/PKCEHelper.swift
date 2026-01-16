@@ -1,6 +1,6 @@
 //
 //  PKCEHelper.swift
-//  MojangAPI
+//  CraftKit
 //
 //  PKCE (Proof Key for Code Exchange) 辅助工具
 //  实现 RFC 7636 标准，用于 OAuth 2.0 公共客户端

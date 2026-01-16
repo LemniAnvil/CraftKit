@@ -1,6 +1,6 @@
 //
 //  Data+Multipart.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

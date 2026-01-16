@@ -1,6 +1,6 @@
 //
 //  CFModsSearchResponse.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

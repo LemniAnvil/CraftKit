@@ -1,6 +1,6 @@
 //
 //  CFLinks.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

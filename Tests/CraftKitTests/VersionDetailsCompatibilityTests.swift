@@ -1,11 +1,11 @@
 //
 //  VersionDetailsCompatibilityTests.swift
-//  MojangAPITests
+//  CraftKitTests
 //
 
 import XCTest
 
-@testable import MojangAPI
+@testable import CraftKit
 
 final class VersionDetailsCompatibilityTests: XCTestCase {
 

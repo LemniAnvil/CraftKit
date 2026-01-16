@@ -1,6 +1,6 @@
 //
 //  AccountProfileView.swift
-//  MojangAPIDemo
+//  CraftKitDemo
 //
 //  账户档案展示视图 - 显示所有皮肤和披风信息
 //

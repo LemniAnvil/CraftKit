@@ -1,6 +1,6 @@
 //
 //  MicrosoftAuthModels.swift
-//  MojangAPI
+//  CraftKit
 //
 //  Microsoft OAuth 2.0 认证模型
 //

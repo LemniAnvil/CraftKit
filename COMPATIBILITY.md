@@ -2,7 +2,7 @@
 
 ## 概述
 
-MojangAPI 包已完全兼容 Minecraft 所有版本（从最早的 rd-132211 到最新的快照版本）的不同 JSON 格式。
+CraftKit 包已完全兼容 Minecraft 所有版本（从最早的 rd-132211 到最新的快照版本）的不同 JSON 格式。
 
 ## 主要兼容性变化
 

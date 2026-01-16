@@ -1,6 +1,6 @@
 //
 //  JSONDecoder+DateDecodingStrategy.swift
-//  MojangAPI
+//  CraftKit
 //
 
 import Foundation

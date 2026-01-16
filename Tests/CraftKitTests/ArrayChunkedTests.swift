@@ -1,11 +1,11 @@
 //
 //  ArrayChunkedTests.swift
-//  MojangAPITests
+//  CraftKitTests
 //
 
 import XCTest
 
-@testable import MojangAPI
+@testable import CraftKit
 
 final class ArrayChunkedTests: XCTestCase {
 

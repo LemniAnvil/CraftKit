@@ -1,6 +1,6 @@
 //
 //  BatchUUIDExample.swift
-//  MojangAPI
+//  CraftKit
 //
 //  批量 UUID 查询示例
 //
