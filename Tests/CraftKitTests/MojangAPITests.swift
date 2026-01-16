@@ -45,6 +45,56 @@ final class MojangAPITests: XCTestCase {
     XCTAssertNil(profile.properties)  // 通过名称查询，属性为空
   }
 
+  /// 测试批量 UUID 查询的并发功能
+  /// 验证 TaskGroup 能够正确处理多个批次的并发请求
+  func testFetchUUIDsConcurrency() async throws {
+    // 准备 15 个玩家名（将被分成 2 个批次）
+    let names = [
+      "Notch", "jeb_", "Dinnerbone", "Grumm", "ez",
+      "Searge", "Marc_IRL", "Hypixel", "Simon", "Dream",
+      "GeorgeNotFound", "Sapnap", "TommyInnit", "Tubbo", "Ranboo"
+    ]
+
+    let startTime = Date()
+    let results = try await client.fetchUUIDs(names: names)
+    let duration = Date().timeIntervalSince(startTime)
+
+    // 验证结果
+    XCTAssertGreaterThan(results.count, 0, "应该找到至少一个玩家")
+    XCTAssertLessThanOrEqual(results.count, names.count, "结果数量不应超过输入数量")
+
+    // 验证一些已知的玩家
+    if let notchUUID = results["Notch"] {
+      XCTAssertEqual(notchUUID.count, 32, "UUID 应该是 32 个字符")
+    }
+
+    // 打印性能数据（用于观察并发效果）
+    print("批量查询 \(names.count) 个玩家，耗时 \(String(format: "%.2f", duration)) 秒")
+    print("找到 \(results.count) 个玩家")
+    print("批次数量: \((names.count + 9) / 10)")
+  }
+
+  /// 测试批量 UUID 查询的取消功能
+  /// 验证任务取消机制能够正常工作
+  func testFetchUUIDsCancellation() async throws {
+    let names = Array(repeating: "Notch", count: 50)  // 大量重复查询
+
+    let task = Task {
+      try await client.fetchUUIDs(names: names)
+    }
+
+    // 立即取消任务
+    task.cancel()
+
+    do {
+      _ = try await task.value
+      XCTFail("任务应该被取消并抛出错误")
+    } catch {
+      // 预期会抛出取消错误
+      XCTAssertTrue(error is CancellationError || (error as NSError).code == NSURLErrorCancelled)
+    }
+  }
+
   /// 测试通过 UUID 获取玩家档案
   /// 验证能够根据 UUID 获取完整的玩家信息，包括皮肤纹理数据
   /// 测试皮肤模型兼容性，确保能够处理有无 metadata 的各种情况

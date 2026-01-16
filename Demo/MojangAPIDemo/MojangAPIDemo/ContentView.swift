@@ -560,10 +560,13 @@ struct VersionManifestView: View {
 }
 
 struct BatchUUIDLookupView: View {
-  @State private var inputNames = "Notch\njeb_\nDinnerbone"
+  @State private var inputNames = "Notch\njeb_\nDinnerbone\nGroudon\n_jeb\nez\nsearge\ndinnerbone"
   @State private var results: [String: String] = [:]
   @State private var isLoading = false
   @State private var errorMessage: String?
+  @State private var executionTime: TimeInterval?
+  @State private var batchCount: Int?
+  @State private var currentTask: Task<Void, Never>?
 
   private let client = MinecraftAPIClient()
 
@@ -575,49 +578,115 @@ struct BatchUUIDLookupView: View {
   }
 
   var body: some View {
-    Form {
-      Section("输入玩家名称（换行或逗号分隔）") {
-        TextEditor(text: $inputNames)
-          .frame(minHeight: 140)
-          .autocorrectionDisabled()
-          .font(.system(.body, design: .monospaced))
+    ScrollView {
+      LazyVStack(spacing: 0) {
+        // 输入区域
+        GroupBox("输入玩家名称（换行或逗号分隔）") {
+          VStack(spacing: 12) {
+            TextEditor(text: $inputNames)
+              .frame(minHeight: 140)
+              .autocorrectionDisabled()
+              .font(.system(.body, design: .monospaced))
 
-        LabeledContent("有效名称", value: "\(parsedNames.count)")
+            HStack {
+              Text("有效名称:")
+                .foregroundStyle(.secondary)
+              Text("\(parsedNames.count)")
+                .fontWeight(.semibold)
 
-        Button(action: lookup) {
-          Label("批量查询", systemImage: "arrow.triangle.2.circlepath")
-            .frame(maxWidth: .infinity)
+              if let count = batchCount {
+                Spacer()
+                Text("批次数量:")
+                  .foregroundStyle(.secondary)
+                Text("\(count)")
+                  .fontWeight(.semibold)
+              }
+            }
+            .font(.subheadline)
+
+            HStack {
+              Button(action: lookup) {
+                Label("批量查询 (并发)", systemImage: "arrow.triangle.2.circlepath")
+                  .frame(maxWidth: .infinity)
+              }
+              .disabled(parsedNames.isEmpty || isLoading)
+
+              if isLoading {
+                Button(action: cancelLookup) {
+                  Label("取消", systemImage: "xmark.circle")
+                }
+              }
+            }
+
+            Button(action: loadSampleData) {
+              Label("加载示例数据 (30 个玩家)", systemImage: "doc.text")
+                .frame(maxWidth: .infinity)
+            }
+            .disabled(isLoading)
+          }
         }
-        .disabled(parsedNames.isEmpty || isLoading)
-      }
+        .padding()
 
-      if isLoading {
-        Section {
-          ProgressView("请求中…").frame(maxWidth: .infinity)
-        }
-      }
-
-      if let error = errorMessage {
-        Section {
-          Text(error)
-            .foregroundStyle(.red)
-        }
-      }
-
-      if !results.isEmpty {
-        Section("结果（\(results.count)）") {
-          ForEach(
-            results.sorted(by: { $0.key.lowercased() < $1.key.lowercased() }),
-            id: \.key
-          ) { name, uuid in
-            DataCard {
-              Text(name)
-                .font(.headline)
-              Text(uuid)
-                .font(.system(.footnote, design: .monospaced))
-                .textSelection(.enabled)
+        // 加载状态
+        if isLoading {
+          GroupBox {
+            VStack(spacing: 8) {
+              ProgressView("请求中…使用 TaskGroup 并发处理")
+                .frame(maxWidth: .infinity)
+              Text("已找到 \(results.count) 个结果")
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
           }
+          .padding([.horizontal, .bottom])
+        }
+
+        // 错误信息
+        if let error = errorMessage {
+          GroupBox {
+            Text(error)
+              .foregroundStyle(.red)
+              .frame(maxWidth: .infinity)
+          }
+          .padding([.horizontal, .bottom])
+        }
+
+        // 性能统计
+        if let time = executionTime {
+          GroupBox("性能统计") {
+            DataCard {
+              KeyValueRow(title: "执行时间", value: String(format: "%.2f 秒", time))
+              KeyValueRow(title: "查询数量", value: "\(parsedNames.count)")
+              KeyValueRow(title: "成功数量", value: "\(results.count)")
+              KeyValueRow(title: "失败数量", value: "\(parsedNames.count - results.count)")
+              if let batches = batchCount {
+                KeyValueRow(title: "批次数量", value: "\(batches)")
+                KeyValueRow(title: "平均每批", value: String(format: "%.2f 秒", time / Double(batches)))
+              }
+            }
+          }
+          .padding([.horizontal, .bottom])
+        }
+
+        // 结果列表
+        if !results.isEmpty {
+          GroupBox("结果（\(results.count)）") {
+            VStack(spacing: 8) {
+              ForEach(
+                results.sorted(by: { $0.key.lowercased() < $1.key.lowercased() }),
+                id: \.key
+              ) { name, uuid in
+                DataCard {
+                  Text(name)
+                    .font(.headline)
+                  Text(uuid)
+                    .font(.system(.footnote, design: .monospaced))
+                    .textSelection(.enabled)
+                }
+              }
+            }
+          }
+          .padding([.horizontal, .bottom])
         }
       }
     }
@@ -628,16 +697,83 @@ struct BatchUUIDLookupView: View {
     isLoading = true
     errorMessage = nil
     results = [:]
+    executionTime = nil
 
     let names = parsedNames
-    Task {
+    let batches = (names.count + 9) / 10  // 向上取整
+    batchCount = batches
+
+    let startTime = Date()
+
+    currentTask = Task {
       do {
-        results = try await client.fetchUUIDs(names: names)
+        let fetchedResults = try await client.fetchUUIDs(names: names)
+
+        // 检查是否被取消
+        try Task.checkCancellation()
+
+        await MainActor.run {
+          results = fetchedResults
+          executionTime = Date().timeIntervalSince(startTime)
+          isLoading = false
+        }
+      } catch is CancellationError {
+        await MainActor.run {
+          errorMessage = "查询已取消"
+          isLoading = false
+        }
       } catch {
-        errorMessage = error.localizedDescription
+        await MainActor.run {
+          errorMessage = error.localizedDescription
+          isLoading = false
+        }
       }
-      isLoading = false
     }
+  }
+
+  private func cancelLookup() {
+    currentTask?.cancel()
+    currentTask = nil
+    isLoading = false
+  }
+
+  private func loadSampleData() {
+    // 加载 30 个知名 Minecraft 玩家名
+    inputNames = """
+    Notch
+    jeb_
+    Dinnerbone
+    Grumm
+    Marc_IRL
+    ez
+    Searge
+    Hypixel
+    Simon
+    Technoblade
+    Dream
+    GeorgeNotFound
+    Sapnap
+    TommyInnit
+    Tubbo
+    Ranboo
+    Ph1LzA
+    Wilbur
+    Quackity
+    BadBoyHalo
+    Skeppy
+    AntVenom
+    CaptainSparklez
+    Mumbo
+    Grian
+    iskall85
+    docm77
+    Xisuma
+    ZombieCleo
+    ethoslab
+    """
+    executionTime = nil
+    results = [:]
+    batchCount = nil
   }
 }
 

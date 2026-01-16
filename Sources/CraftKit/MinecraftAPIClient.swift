@@ -100,9 +100,9 @@ public class MinecraftAPIClient {
     return try await request(url: url, notFoundError: .playerNotFound(uuid))
   }
 
-  /// 批量获取多个用户名的 UUID（支持自动分批）
+  /// 批量获取多个用户名的 UUID（支持自动分批和并发）
   ///
-  /// Mojang API 限制每次请求最多 10 个用户名。此方法会自动将大量请求分批处理。
+  /// Mojang API 限制每次请求最多 10 个用户名。此方法会自动将大量请求分批并并发处理。
   ///
   /// - Parameters:
   ///   - names: 要查询的用户名列表（支持任意数量）
@@ -110,7 +110,9 @@ public class MinecraftAPIClient {
   /// - Returns: 用户名到 UUID 的映射字典。未找到的用户名不会出现在结果中。
   ///
   /// - Note:
-  ///   - 如果请求超过 10 个用户名，会自动分批并发送多个请求
+  ///   - 如果请求超过 10 个用户名，会自动分批并发送多个并发请求
+  ///   - 使用 Swift Concurrency TaskGroup 实现真正的并发处理
+  ///   - 支持任务取消（通过 Task.checkCancellation）
   ///   - 重复的用户名会被自动去重
   ///   - 空字符串或空白字符串会被自动过滤
   ///
@@ -119,10 +121,10 @@ public class MinecraftAPIClient {
   /// // 查询少量用户名（单次请求）
   /// let results = try await client.fetchUUIDs(names: ["Notch", "jeb_"])
   ///
-  /// // 查询大量用户名（自动分批）
+  /// // 查询大量用户名（自动分批并并发处理）
   /// let manyNames = ["player1", "player2", ..., "player50"]
   /// let allResults = try await client.fetchUUIDs(names: manyNames)
-  /// // 自动发送 5 次请求（每次 10 个）
+  /// // 自动并发发送 5 次请求（每次 10 个）
   /// ```
   public func fetchUUIDs(names: [String], batchSize: Int = 10) async throws -> [String: String] {
     guard !names.isEmpty else { return [:] }
@@ -141,16 +143,26 @@ public class MinecraftAPIClient {
       return try await fetchUUIDBatch(names: cleanedNames)
     }
 
-    // 分批处理
-    var allResults: [String: String] = [:]
+    // 使用 TaskGroup 进行并发分批处理
     let batches = cleanedNames.chunked(into: effectiveBatchSize)
 
-    for batch in batches {
-      let batchResults = try await fetchUUIDBatch(names: batch)
-      allResults.merge(batchResults) { _, new in new }
-    }
+    return try await withThrowingTaskGroup(of: [String: String].self) { group in
+      // 为每个批次创建并发任务
+      for batch in batches {
+        group.addTask {
+          try Task.checkCancellation()  // 支持任务取消
+          return try await self.fetchUUIDBatch(names: batch)
+        }
+      }
 
-    return allResults
+      // 收集所有批次的结果
+      var allResults: [String: String] = [:]
+      for try await batchResults in group {
+        allResults.merge(batchResults) { _, new in new }
+      }
+
+      return allResults
+    }
   }
 
   /// 执行单批 UUID 查询（内部方法）
