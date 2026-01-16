@@ -79,7 +79,7 @@ public class MicrosoftAuthClient {
     clientID: String,
     redirectURI: String,
     scope: String = "XboxLive.signin offline_access",
-    configuration: MinecraftAPIConfiguration = MinecraftAPIConfiguration()
+    configuration: APIConfiguration = MicrosoftAuthConfiguration()
   ) {
     self.clientID = clientID
     self.redirectURI = redirectURI

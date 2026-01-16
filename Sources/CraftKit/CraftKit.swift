@@ -8,6 +8,7 @@
 @_exported import CraftKitCore
 @_exported import CraftKitMojang
 @_exported import CraftKitCurseForge
+@_exported import CraftKitAuth
 
 /// Version surface for the CraftKit umbrella module.
 public struct CraftKitVersion {

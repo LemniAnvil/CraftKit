@@ -23,6 +23,10 @@ let package = Package(
       targets: ["CraftKitCurseForge"]
     ),
     .library(
+      name: "CraftKitAuth",
+      targets: ["CraftKitAuth"]
+    ),
+    .library(
       name: "CraftKit",
       targets: ["CraftKit"]
     ),
@@ -43,11 +47,17 @@ let package = Package(
       path: "Sources/CraftKitCurseForge"
     ),
     .target(
+      name: "CraftKitAuth",
+      dependencies: ["CraftKitCore"],
+      path: "Sources/CraftKitAuth"
+    ),
+    .target(
       name: "CraftKit",
       dependencies: [
         "CraftKitCore",
         "CraftKitMojang",
         "CraftKitCurseForge",
+        "CraftKitAuth",
       ],
       path: "Sources/CraftKit"
     ),
