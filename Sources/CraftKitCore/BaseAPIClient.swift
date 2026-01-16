@@ -1,27 +1,21 @@
 //
 //  BaseAPIClient.swift
-//  CraftKit
+//  CraftKitCore
 //
 
 import Foundation
 
-/// API 配置协议
-public protocol APIConfiguration {
-  var timeout: TimeInterval { get }
-  var cachePolicy: URLRequest.CachePolicy { get }
-}
-
 /// 基础 API 客户端 - 提供共享的网络请求功能
-class BaseAPIClient {
+public final class BaseAPIClient {
 
   // MARK: - Properties
 
-  let session: URLSession
-  let decoder: JSONDecoder
+  public let session: URLSession
+  public let decoder: JSONDecoder
 
   // MARK: - Initialization
 
-  init(
+  public init(
     configuration: APIConfiguration,
     dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .iso8601
   ) {
@@ -43,7 +37,7 @@ class BaseAPIClient {
   ///   - url: 请求 URL
   ///   - headers: 自定义请求头
   /// - Returns: 解码后的响应数据
-  func get<T: Decodable>(
+  public func get<T: Decodable>(
     url: URL,
     headers: [String: String] = [:]
   ) async throws -> T {
@@ -64,7 +58,7 @@ class BaseAPIClient {
   ///   - body: 请求体（可编码对象）
   ///   - headers: 自定义请求头
   /// - Returns: 响应数据
-  func post<T: Encodable>(
+  public func post<T: Encodable>(
     url: URL,
     body: T,
     headers: [String: String] = [:]
@@ -93,7 +87,7 @@ class BaseAPIClient {
   ///   - body: 原始请求体数据
   ///   - headers: 自定义请求头
   /// - Returns: 响应数据
-  func postRaw(
+  public func postRaw(
     url: URL,
     body: Data,
     headers: [String: String] = [:]
@@ -118,7 +112,7 @@ class BaseAPIClient {
   ///   - url: 请求 URL
   ///   - headers: 自定义请求头
   /// - Returns: 响应数据
-  func delete(
+  public func delete(
     url: URL,
     headers: [String: String] = [:]
   ) async throws -> Data {
@@ -160,14 +154,4 @@ class BaseAPIClient {
       throw NetworkError.httpError(statusCode: httpResponse.statusCode, data: data)
     }
   }
-}
-
-// MARK: - Network Error
-
-/// 通用网络错误
-enum NetworkError: Error {
-  case invalidResponse
-  case httpError(statusCode: Int, data: Data)
-  case decodingError(Error)
-  case networkError(Error)
 }

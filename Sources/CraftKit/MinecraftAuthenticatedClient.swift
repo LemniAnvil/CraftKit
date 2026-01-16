@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Minecraft 认证 API 客户端
 ///

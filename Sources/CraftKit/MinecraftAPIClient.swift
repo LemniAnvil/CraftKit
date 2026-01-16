@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Minecraft API 客户端
 public class MinecraftAPIClient {

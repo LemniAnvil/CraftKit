@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// CurseForge API 配置
 public struct CurseForgeAPIConfiguration: APIConfiguration {

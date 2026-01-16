@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Microsoft 认证客户端
 ///

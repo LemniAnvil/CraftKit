@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Array {
+public extension Array {
   /// 将数组分割成指定大小的批次
   ///
   /// - Parameter size: 每批的元素数量
