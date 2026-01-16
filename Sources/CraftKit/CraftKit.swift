@@ -13,4 +13,12 @@
 /// Version surface for the CraftKit umbrella module.
 public struct CraftKitVersion {
   public static let current = "2.0.0"
+
+  /// Module version mapping for optional dependency selection.
+  public static let modules: [String: String] = [
+    "Core": current,
+    "Mojang": current,
+    "CurseForge": current,
+    "Auth": current,
+  ]
 }
