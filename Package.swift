@@ -19,6 +19,10 @@ let package = Package(
       targets: ["CraftKitMojang"]
     ),
     .library(
+      name: "CraftKitCurseForge",
+      targets: ["CraftKitCurseForge"]
+    ),
+    .library(
       name: "CraftKit",
       targets: ["CraftKit"]
     ),
@@ -34,10 +38,16 @@ let package = Package(
       path: "Sources/CraftKitMojang"
     ),
     .target(
+      name: "CraftKitCurseForge",
+      dependencies: ["CraftKitCore"],
+      path: "Sources/CraftKitCurseForge"
+    ),
+    .target(
       name: "CraftKit",
       dependencies: [
         "CraftKitCore",
         "CraftKitMojang",
+        "CraftKitCurseForge",
       ],
       path: "Sources/CraftKit"
     ),
