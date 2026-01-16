@@ -25,6 +25,9 @@ public enum MinecraftAPIError: Error, LocalizedError {
   case invalidSkinFormat
   case authenticationRequired
   case invalidBearerToken
+  case tokenExpired
+  case unauthorized
+  case rateLimited
 
   public var errorDescription: String? {
     switch self {
@@ -64,6 +67,12 @@ public enum MinecraftAPIError: Error, LocalizedError {
       return "此操作需要认证"
     case .invalidBearerToken:
       return "无效的 Bearer Token"
+    case .tokenExpired:
+      return "认证令牌已过期，请重新登录"
+    case .unauthorized:
+      return "认证失败，请检查凭据"
+    case .rateLimited:
+      return "请求过于频繁，请稍后再试"
     }
   }
 }

@@ -5,6 +5,6 @@
       location = "group:MojangAPIDemo/MojangAPIDemo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../../MojangAPI">
+      location = "group:../../CraftKit">
    </FileRef>
 </Workspace>

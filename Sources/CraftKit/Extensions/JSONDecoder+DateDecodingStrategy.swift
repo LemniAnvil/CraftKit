@@ -10,10 +10,11 @@ extension JSONDecoder.DateDecodingStrategy {
   /// 灵活的 ISO8601 日期解码策略
   ///
   /// 支持多种毫秒精度的 ISO8601 日期格式：
-  /// - 无毫秒: `2024-01-01T12:00:00Z`
+  /// - 无毫秒: `2024-01-01T12:00:00Z` 或 `2024-01-01T12:00:00+00:00`
   /// - 1-7位毫秒: `2024-01-01T12:00:00.123Z` 到 `2024-01-01T12:00:00.1234567Z`
+  /// - 带时区偏移: `2024-01-01T12:00:00+00:00` 或 `2024-01-01T12:00:00.123+00:00`
   ///
-  /// 适用于 CurseForge API 等返回可变毫秒位数的 API
+  /// 适用于 CurseForge API、Minecraft API 等返回可变毫秒位数的 API
   public static var flexibleISO8601: JSONDecoder.DateDecodingStrategy {
     return .custom { decoder in
       let container = try decoder.singleValueContainer()
@@ -35,8 +36,16 @@ extension JSONDecoder.DateDecodingStrategy {
 
       // 按常见程度排序的格式列表
       let formats = [
+        "yyyy-MM-dd'T'HH:mm:ssXXX",  // 无毫秒，带时区偏移（如 +00:00）
+        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",  // 3位毫秒，带时区偏移
         "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",  // 3位毫秒（最常见）
         "yyyy-MM-dd'T'HH:mm:ss'Z'",  // 无毫秒
+        "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX",  // 6位毫秒，带时区偏移
+        "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSXXX",  // 7位毫秒，带时区偏移
+        "yyyy-MM-dd'T'HH:mm:ss.SSSSSXXX",  // 5位毫秒，带时区偏移
+        "yyyy-MM-dd'T'HH:mm:ss.SSSSXXX",  // 4位毫秒，带时区偏移
+        "yyyy-MM-dd'T'HH:mm:ss.SSXXX",  // 2位毫秒，带时区偏移
+        "yyyy-MM-dd'T'HH:mm:ss.SXXX",  // 1位毫秒，带时区偏移
         "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",  // 6位毫秒
         "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'",  // 7位毫秒
         "yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'",  // 5位毫秒

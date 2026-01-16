@@ -17,7 +17,7 @@ public class MinecraftAPIClient {
     self.configuration = configuration
     self.baseClient = BaseAPIClient(
       configuration: configuration,
-      dateDecodingStrategy: .iso8601
+      dateDecodingStrategy: .flexibleISO8601
     )
   }
 

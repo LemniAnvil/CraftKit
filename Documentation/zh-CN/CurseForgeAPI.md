@@ -20,7 +20,7 @@ CurseForge Minecraft 整合包/模组 API 集成完整参考。
 ### 配置
 
 ```swift
-import MojangAPI
+import CraftKit
 
 // 从环境变量读取 API 密钥（推荐）
 let apiKey = ProcessInfo.processInfo.environment["CURSEFORGE_API_KEY"] ?? "YOUR_API_KEY"

@@ -7,6 +7,7 @@ A modern, type-safe Swift package for Mojang's Minecraft services plus CurseForg
 ## Features
 
 ### Mojang API
+- **Microsoft OAuth 2.0 Authentication** - Complete login flow without UI dependencies
 - Version manifest + details (v1 + v2)
 - Player profiles by name or UUID
 - Skin and cape download helpers
@@ -80,6 +81,43 @@ try await auth.changeSkinVariant(.slim)
 // Copy another player's skin
 try await auth.copySkin(from: "Notch")
 ```
+
+### Microsoft OAuth 2.0 Authentication
+
+Complete authentication flow without UI dependencies:
+
+```swift
+let authClient = MicrosoftAuthClient(
+  clientID: "your-microsoft-client-id",
+  redirectURI: "your-app://auth"
+)
+
+// Step 1: Generate login URL
+let loginData = try authClient.generateLoginURL()
+// Open loginData.url in browser (your app handles this)
+
+// Step 2: Parse callback URL (after user authorizes)
+let authCode = try authClient.parseCallback(
+  url: callbackURL,
+  expectedState: loginData.state
+)
+
+// Step 3: Complete login
+let response = try await authClient.completeLogin(
+  authCode: authCode,
+  codeVerifier: loginData.codeVerifier
+)
+
+print("Logged in as: \(response.name)")
+print("Access token: \(response.accessToken)")
+
+// Step 4: Refresh token when expired
+let refreshed = try await authClient.refreshLogin(
+  refreshToken: response.refreshToken
+)
+```
+
+See [Microsoft Authentication Guide](./Documentation/MicrosoftAuthenticationGuide.md) for complete implementation details.
 
 ## API Documentation
 

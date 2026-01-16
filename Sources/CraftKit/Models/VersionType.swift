@@ -14,10 +14,19 @@ public enum VersionType: String, Codable, CaseIterable {
 
   public var displayName: String {
     switch self {
-    case .release: return "正式版"
-    case .snapshot: return "快照版"
+    case .release: return "Release"
+    case .snapshot: return "Snapshot"
     case .oldBeta: return "Beta"
     case .oldAlpha: return "Alpha"
+    }
+  }
+
+  public var color: String {
+    switch self {
+    case .release: return "green"
+    case .snapshot: return "orange"
+    case .oldBeta: return "blue"
+    case .oldAlpha: return "purple"
     }
   }
 }

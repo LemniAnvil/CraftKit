@@ -167,7 +167,7 @@ version.formattedReleaseDate
 ## 完整示例
 
 ```swift
-import MojangAPI
+import CraftKit
 
 let client = MinecraftAPIClient()
 
