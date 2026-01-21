@@ -17,13 +17,18 @@ public final class BaseAPIClient {
 
   public init(
     configuration: APIConfiguration,
+    session: URLSession? = nil,
     dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .iso8601
   ) {
-    // 配置 URLSession
-    let config = URLSessionConfiguration.default
-    config.timeoutIntervalForRequest = configuration.timeout
-    config.requestCachePolicy = configuration.cachePolicy
-    self.session = URLSession(configuration: config)
+    if let session = session {
+      self.session = session
+    } else {
+      // 配置 URLSession
+      let config = URLSessionConfiguration.default
+      config.timeoutIntervalForRequest = configuration.timeout
+      config.requestCachePolicy = configuration.cachePolicy
+      self.session = URLSession(configuration: config)
+    }
 
     // 配置 JSON 解码器
     self.decoder = JSONDecoder()

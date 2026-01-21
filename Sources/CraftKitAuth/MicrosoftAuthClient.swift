@@ -79,6 +79,7 @@ public class MicrosoftAuthClient {
     clientID: String,
     redirectURI: String,
     scope: String = "XboxLive.signin offline_access",
+    session: URLSession? = nil,
     configuration: APIConfiguration = MicrosoftAuthConfiguration()
   ) {
     self.clientID = clientID
@@ -86,6 +87,7 @@ public class MicrosoftAuthClient {
     self.scope = scope
     self.baseClient = BaseAPIClient(
       configuration: configuration,
+      session: session,
       dateDecodingStrategy: .iso8601
     )
   }
