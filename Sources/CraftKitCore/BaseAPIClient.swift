@@ -112,6 +112,35 @@ public final class BaseAPIClient {
     return data
   }
 
+  /// 执行 PUT 请求
+  /// - Parameters:
+  ///   - url: 请求 URL
+  ///   - body: 请求体（可编码对象）
+  ///   - headers: 自定义请求头
+  /// - Returns: 响应数据
+  public func put<T: Encodable>(
+    url: URL,
+    body: T,
+    headers: [String: String] = [:]
+  ) async throws -> Data {
+    var request = URLRequest(url: url)
+    request.httpMethod = "PUT"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    // 添加自定义请求头
+    for (key, value) in headers {
+      request.setValue(value, forHTTPHeaderField: key)
+    }
+
+    // 编码请求体
+    request.httpBody = try JSONEncoder().encode(body)
+
+    let (data, response) = try await session.data(for: request)
+    try validateResponse(response: response, data: data)
+
+    return data
+  }
+
   /// 执行 DELETE 请求
   /// - Parameters:
   ///   - url: 请求 URL
