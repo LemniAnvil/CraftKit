@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Minecraft API 客户端配置
 public struct MinecraftAPIConfiguration: APIConfiguration {

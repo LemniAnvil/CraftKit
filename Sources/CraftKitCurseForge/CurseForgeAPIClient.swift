@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// CurseForge API 配置
 public struct CurseForgeAPIConfiguration: APIConfiguration {
@@ -68,12 +69,16 @@ public class CurseForgeAPIClient {
   private let configuration: CurseForgeAPIConfiguration
   private let baseClient: BaseAPIClient
 
-  public init(configuration: CurseForgeAPIConfiguration) {
+  public init(
+    configuration: CurseForgeAPIConfiguration,
+    session: URLSession? = nil
+  ) {
     self.configuration = configuration
 
     // CurseForge API 使用灵活的 ISO8601 日期格式（毫秒位数可变）
     self.baseClient = BaseAPIClient(
       configuration: configuration,
+      session: session,
       dateDecodingStrategy: .flexibleISO8601
     )
   }
@@ -182,6 +187,64 @@ public class CurseForgeAPIClient {
   /// - Returns: Mod/整合包的完整详细信息
   public func fetchModDetails(modId: Int) async throws -> CFModDetailResponse {
     guard let url = URL(string: "\(configuration.baseURL)/mods/\(modId)") else {
+      throw CurseForgeAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
+
+  // MARK: - Mod Files API
+
+  /// Fetch mod/modpack files
+  public func fetchModFiles(
+    modId: Int,
+    index: Int = 0,
+    pageSize: Int = 10000
+  ) async throws -> CFModFilesResponse {
+    var components = URLComponents(string: "\(configuration.baseURL)/mods/\(modId)/files")!
+    components.queryItems = [
+      URLQueryItem(name: "index", value: "\(index)"),
+      URLQueryItem(name: "pageSize", value: "\(pageSize)")
+    ]
+
+    guard let url = components.url else {
+      throw CurseForgeAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
+  // MARK: - Categories API
+
+  /// Fetch categories
+  public func fetchCategories(
+    gameId: CFGameID = .minecraft,
+    classId: CFClassID? = .modpack
+  ) async throws -> CFCategoriesResponse {
+    var components = URLComponents(string: "\(configuration.baseURL)/categories")!
+    var queryItems = [
+      URLQueryItem(name: "gameId", value: "\(gameId.rawValue)")
+    ]
+
+    if let classId = classId {
+      queryItems.append(URLQueryItem(name: "classId", value: "\(classId.rawValue)"))
+    }
+
+    components.queryItems = queryItems
+
+    guard let url = components.url else {
+      throw CurseForgeAPIError.invalidURL
+    }
+
+    return try await request(url: url)
+  }
+
+  // MARK: - Mod Description API
+
+  /// Fetch mod/modpack description
+  public func fetchModDescription(modId: Int) async throws -> CFModDescriptionResponse {
+    guard let url = URL(string: "\(configuration.baseURL)/mods/\(modId)/description") else {
       throw CurseForgeAPIError.invalidURL
     }
 

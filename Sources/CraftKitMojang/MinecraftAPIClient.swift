@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Minecraft API 客户端
 public class MinecraftAPIClient {
@@ -12,11 +13,13 @@ public class MinecraftAPIClient {
   private let baseClient: BaseAPIClient
 
   public init(
-    configuration: MinecraftAPIConfiguration = MinecraftAPIConfiguration()
+    configuration: MinecraftAPIConfiguration = MinecraftAPIConfiguration(),
+    session: URLSession? = nil
   ) {
     self.configuration = configuration
     self.baseClient = BaseAPIClient(
       configuration: configuration,
+      session: session,
       dateDecodingStrategy: .flexibleISO8601
     )
   }

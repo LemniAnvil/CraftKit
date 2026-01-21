@@ -14,15 +14,15 @@ public struct CFCategory: Codable, Identifiable, Hashable, Equatable {
   /// 分类名称
   public let name: String
   /// 分类 slug
-  public let slug: String
+  public let slug: String?
   /// 分类 URL
-  public let url: String
+  public let url: String?
   /// 图标 URL
-  public let iconUrl: String
+  public let iconUrl: String?
   /// 最后修改日期
-  public let dateModified: Date
+  public let dateModified: Date?
   /// 是否为类别（class）
-  public let isClass: Bool
+  public let isClass: Bool?
   /// 类别 ID
   public let classId: Int?
   /// 父分类 ID

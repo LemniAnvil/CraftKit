@@ -12,6 +12,11 @@ public struct PlayerUUID: Codable, Identifiable {
   /// 玩家 UUID（不带连字符）
   public let id: String
 
+  public init(name: String, id: String) {
+    self.name = name
+    self.id = id
+  }
+
   /// UUID 格式化（带连字符）
   public var formattedUUID: String {
     let uuid = id

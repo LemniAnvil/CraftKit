@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Minecraft 认证 API 客户端
 ///
@@ -297,6 +298,37 @@ public class MinecraftAuthenticatedClient {
   }
 
   // MARK: - Cape Management
+
+  /// 装备披风
+  ///
+  /// 将指定的披风设置为当前激活状态。
+  ///
+  /// - Parameter capeId: 要装备的披风 ID
+  ///
+  /// - Throws:
+  ///   - `MinecraftAPIError.invalidURL` 如果 URL 无效
+  ///   - `MinecraftAPIError.invalidBearerToken` 如果认证失败
+  ///   - `MinecraftAPIError.networkError` 如果网络请求失败
+  ///
+  /// 注意：只能装备账户已拥有的披风。披风通常来自 Minecraft 活动、Minecon、迁移奖励等。
+  public func equipCape(id capeId: String) async throws {
+    let endpoint = "\(servicesBaseURL)/minecraft/profile/capes/active"
+    guard let requestURL = URL(string: endpoint) else {
+      throw MinecraftAPIError.invalidURL
+    }
+
+    let payload = ["capeId": capeId]
+    var headers = authHeaders()
+    headers["Content-Type"] = "application/json"
+
+    do {
+      _ = try await baseClient.put(url: requestURL, body: payload, headers: headers)
+    } catch let error as NetworkError {
+      throw mapNetworkError(error)
+    } catch {
+      throw MinecraftAPIError.networkError(error)
+    }
+  }
 
   /// 禁用披风
   ///

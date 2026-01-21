@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CraftKitCore
 
 /// Microsoft 认证客户端
 ///
@@ -78,13 +79,15 @@ public class MicrosoftAuthClient {
     clientID: String,
     redirectURI: String,
     scope: String = "XboxLive.signin offline_access",
-    configuration: MinecraftAPIConfiguration = MinecraftAPIConfiguration()
+    session: URLSession? = nil,
+    configuration: APIConfiguration = MicrosoftAuthConfiguration()
   ) {
     self.clientID = clientID
     self.redirectURI = redirectURI
     self.scope = scope
     self.baseClient = BaseAPIClient(
       configuration: configuration,
+      session: session,
       dateDecodingStrategy: .iso8601
     )
   }
