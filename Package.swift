@@ -7,7 +7,6 @@ let package = Package(
   name: "CraftKit",
   platforms: [
     .macOS(.v13),
-    .iOS(.v15),
   ],
   products: [
     .library(
